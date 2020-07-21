@@ -1,6 +1,10 @@
-export function log(format) {
-  return (next) => async (request) => {
-    await format(request)
-    return await next(request)
+export function log({ request: logRequest, response: logResponse }) {
+  return async function (request, next) {
+    const payload = logRequest ? await logRequest(request) : undefined
+    const response = await next(request)
+    if (logResponse) {
+      await logResponse(response, payload)
+    }
+    return response
   }
 }

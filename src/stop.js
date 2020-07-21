@@ -1,3 +1,3 @@
-export function stop() {
-  return async (request) => request.response
+export async function stop(request) {
+  return await request.respond()
 }

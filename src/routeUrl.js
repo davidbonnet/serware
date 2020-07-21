@@ -4,7 +4,7 @@ const { URL } = global
 
 export function routeUrl(routes) {
   const orderedRoutes = orderBy(toPairs(routes), ['0.length'], ['desc'])
-  return (next) => async (request) => {
+  return async function (request, next) {
     if (!request.href) {
       const href = new URL(`http://${request.headers['host']}${request.url}`)
       request.href = href
@@ -13,12 +13,18 @@ export function routeUrl(routes) {
     }
     const { pathname } = request
     const { length } = orderedRoutes
+    const { length: pathnameLength } = pathname
     for (let i = 0; i < length; i++) {
       const route = orderedRoutes[i]
-      if (pathname.startsWith(route[0])) {
-        request.pathname = pathname.slice(route[0].length)
-        request.breadcrumbs.push(route[0])
-        return await route[1](next)(request)
+      const pattern = route[0]
+      const middleware = route[1]
+      if (pattern.length > pathnameLength) {
+        continue
+      }
+      if (pattern === pathname || pathname.startsWith(pattern)) {
+        request.pathname = pathname.slice(pattern.length)
+        request.breadcrumbs.push(pattern)
+        return await middleware(request, next)
       }
     }
     return await next(request)

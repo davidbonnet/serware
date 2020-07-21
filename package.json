@@ -1,19 +1,17 @@
 {
   "name": "serware",
-  "version": "0.0.0",
-  "description": "Server middleware.",
-  "main": "dist/es5/index.js",
-  "module": "dist/module/index.js",
-  "jsnext:main": "dist/module/index.js",
-  "es": "src/index.js",
-  "main-es": "src/index.js",
+  "version": "0.1.0",
+  "description": "Basic server middelware for JavaScript engines.",
+  "main": "main.js",
+  "module": "main.js",
+  "jsnext:main": "main.js",
+  "es": "main.js",
+  "main-es": "main.js",
   "scripts": {
-    "start": "node scripts/server.js",
-    "build": "parcel build --out-dir dist/app --public-url ./ demo/client/index.html",
-    "dev": "concurrently -n \"server,client,  test\" \"npm:dev:server\" \"npm:dev:client\" \"npm:dev:test\"",
-    "dev:server": "node --require esm demo/index.js",
+    "start": "node --require esm demo/server.js",
+    "dev": "concurrently -n \"server,  test\" \"npm:dev:server\" \"npm:dev:test\"",
+    "dev:server": "node --require esm demo/server.js",
     "dev:test": "ava --watch",
-    "prepare": "babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/es5 --ignore \"**/tests/**/*.js\" src; cross-env BABEL_MODE=module babel --config-file ./babel.config.js --no-comments --source-maps --out-dir dist/module --ignore \"**/tests/**/*.js\" src",
     "test": "npm run eslint && npm run prettier:check && npm run test:unit",
     "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' ava",
     "eslint": "eslint src/",
@@ -24,20 +22,22 @@
     "deploy": "git push --follow-tags origin master && npm publish"
   },
   "keywords": [
-    "react",
-    "value",
-    "reuse",
-    "polymorphism"
+    "server",
+    "http",
+    "middleware",
+    "session",
+    "file"
   ],
   "author": "David Bonnet <david@bonnet.cc>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/davidbonnet/realue.git"
+    "url": "https://github.com/davidbonnet/serware.git"
   },
   "dependencies": {
     "cookie": "^0.4.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "mime-types": "^2.1.27"
   },
   "devDependencies": {
     "ava": "^3.8.1",
@@ -53,7 +53,6 @@
     "fast-glob": "3.2.2",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
-    "serve-static": "^1.14.1",
     "standard-version": "^7.1.0"
   },
   "prettier": {

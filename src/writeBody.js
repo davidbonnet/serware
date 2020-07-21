@@ -1,23 +1,31 @@
-import { pipeline } from 'stream'
+import { Readable } from 'stream'
+import { Buffer } from 'buffer'
 
-import { isString } from 'lodash'
+import { pipeline } from './promisified'
+import { isStream } from './isStream'
 
-export function writeBody(next) {
-  return async (request) => {
-    const response = await next(request)
-    return new Promise((resolve, reject) => {
-      const { data } = response
-      if (isString(data)) {
-        response.write(data, response.dataEncoding, () => resolve(response))
-        return
-      }
-      pipeline(data, response, (error) => {
-        if (error) {
-          reject(error)
-          return
-        }
-        resolve(response)
+const { isBuffer } = Buffer
+
+export async function writeBody(request, next) {
+  const response = await next(request)
+  const { body = '', charset, tube } = response
+  const source = isStream(body)
+    ? body
+    : isBuffer(body)
+    ? streamFromBuffer(body)
+    : Readable.from(body, {
+        objectMode: false,
+        encoding: charset,
       })
-    })
-  }
+  await (tube ? pipeline(source, tube, response) : pipeline(source, response))
+  return response
+}
+
+function streamFromBuffer(buffer) {
+  return new Readable({
+    read() {
+      this.push(buffer)
+      this.push(null)
+    },
+  })
 }

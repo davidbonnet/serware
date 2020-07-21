@@ -1,12 +1,14 @@
-import { identity } from 'lodash'
-
-export function compose(...funcs) {
-  switch (funcs.length) {
-    case 0:
-      return identity
-    case 1:
-      return funcs[0]
-    default:
-      return funcs.reduce((a, b) => (...args) => a(b(...args)), identity)
+export function compose(...middlewares) {
+  return function (request, next) {
+    function dispatch(request, index) {
+      const middleware = middlewares[index]
+      if (!middleware) {
+        return next(request, request.respond)
+      }
+      return middleware(request, function (request) {
+        return dispatch(request, index + 1)
+      })
+    }
+    return dispatch(request, 0)
   }
 }

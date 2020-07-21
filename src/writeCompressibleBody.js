@@ -1,45 +1,35 @@
-import { Readable, pipeline } from 'stream'
-import { createDeflate, createGzip, createBrotliCompress } from 'zlib'
+import { Readable } from 'stream'
+import { createGzip, createBrotliCompress } from 'zlib'
 
-import { isString } from 'lodash'
+import { pipeline } from './promisified'
+import { GZIP, BR } from './getAcceptedEncoding'
+import { isStream } from './isStream'
 
-export function writeCompressibleBody(next) {
-  return async (request) => {
-    const acceptEncoding = request.headers['accept-encoding'] || ''
-    if (/\bdeflate\b/.test(acceptEncoding)) {
-      request.response.setHeader('content-encoding', 'deflate')
-    } else if (/\bgzip\b/.test(acceptEncoding)) {
-      request.response.setHeader('content-encoding', 'gzip')
-    } else if (/\bbr\b/.test(acceptEncoding)) {
-      request.response.setHeader('content-encoding', 'br')
-    }
-    const response = await next(request)
-    return new Promise((resolve, reject) => {
-      const contentEncoding = response.getHeader('content-encoding')
-      const { data } = response
-      const source = isString(data) ? Readable.from([data]) : data
-      if (!source) {
-        console.log('source missing')
-      }
-      if (!response) {
-        console.log('response missing')
-      }
-      const done = (error) => {
-        if (error) {
-          reject(error)
-          return
-        }
-        resolve(response)
-      }
-      if (contentEncoding === 'deflate') {
-        pipeline(source, createDeflate(), response, done)
-      } else if (contentEncoding === 'gzip') {
-        pipeline(source, createGzip(), response, done)
-      } else if (contentEncoding === 'br') {
-        pipeline(source, createBrotliCompress(), response, done)
-      } else {
-        pipeline(source, response, done)
-      }
-    })
+export async function writeCompressibleBody(request, next) {
+  const response = await next(request)
+  const { body = '', charset, tube } = response
+  const source = isStream(body)
+    ? body
+    : Readable.from(body, {
+        objectMode: false,
+        encoding: charset,
+      })
+  switch (response.getHeader('content-encoding')) {
+    case GZIP:
+      await (tube
+        ? pipeline(source, createGzip(), tube, response)
+        : pipeline(source, createGzip(), response))
+      break
+    case BR:
+      await (tube
+        ? pipeline(source, createBrotliCompress(), tube, response)
+        : pipeline(source, createBrotliCompress(), response))
+      break
+    default:
+      await (tube
+        ? pipeline(source, tube, response)
+        : pipeline(source, response))
+      break
   }
+  return response
 }

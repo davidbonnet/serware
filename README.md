@@ -21,6 +21,7 @@
 
 ### Roadmap
 
+- Pre-cache facility
 - Full test coverage
 - Deno compatibility
 - TypeScript types

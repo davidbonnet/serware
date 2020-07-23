@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/davidbonnet/serware/compare/v0.1.0...v0.1.1) (2020-07-23)
+
+
+### Bug Fixes
+
+* remove dist folder and add roadmap item ([ba52402](https://github.com/davidbonnet/serware/commit/ba52402c17c29f27a59a25aae6df9a84f0fa8ce8))
+
 ## 0.1.0 (2020-07-23)
 
 

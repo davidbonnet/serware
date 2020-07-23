@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node --require esm demo/server.js",
     "dev": "concurrently -n \"server,  test\" \"npm:dev:server\" \"npm:dev:test\"",
-    "dev:server": "node --require esm demo/server.js",
+    "dev:server": "node --require esm demo/watch.js",
     "dev:test": "ava --watch",
     "test": "npm run eslint && npm run prettier:check && npm run test:unit",
     "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' ava",
@@ -46,9 +46,9 @@
     "codecov": "^3.7.2",
     "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
-    "eslint": "^6.8.0",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.22.0",
     "esm": "^3.2.25",
     "fast-glob": "3.2.4",
     "husky": "^4.2.5",
@@ -78,7 +78,7 @@
       "es6": true
     },
     "parserOptions": {
-      "ecmaVersion": 10,
+      "ecmaVersion": 11,
       "sourceType": "module"
     },
     "globals": {

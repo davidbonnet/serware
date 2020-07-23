@@ -61,10 +61,10 @@ function printMessage(message, contentType = 'text/plain', cache = true) {
   }
 }
 
-function printHtmlMessage(message, cache) {
+function printHtmlMessage(title, body = '', cache) {
   return function (request, next) {
     return printMessage(
-      `<body><h1>${message}</h1></body>`,
+      `<html><head><title>${title}</title></head><body><h1>${title}</h1>${body}</body></html>`,
       'text/html',
       cache,
     )(request, next)
@@ -86,6 +86,29 @@ const store = {
     SESSIONS[key] = value
   },
 }
+
+const LINKS = [
+  {
+    href: '/files/page.html',
+    label: 'Html test page with a picture',
+  },
+  {
+    href: '/test',
+    label: 'Test page',
+  },
+  {
+    href: '/sessions',
+    label: 'Current sessions',
+  },
+  {
+    href: '/counter',
+    label: 'Show counter',
+  },
+  {
+    href: '/clear',
+    label: 'Clear current session',
+  },
+]
 
 const handlers = compose(
   // log({
@@ -132,6 +155,14 @@ const handlers = compose(
       return response
     }),
     '/sessions': exact(printMessage(() => formatJson(SESSIONS, null, 2))),
+    '/': exact(
+      printHtmlMessage(
+        'Index',
+        `<ul>${LINKS.map(
+          (link) => `<li><a href="${link.href}">${link.label}</a></li>`,
+        ).join('')}</ul>`,
+      ),
+    ),
   }),
   printHtmlMessage('Page not found', false),
 )
@@ -142,15 +173,14 @@ const raw = (request, response) => {
   response.write(body, response.charset, () => response.end())
 }
 
-const server = createServer(middleware(handlers))
-// const server = createServer(raw)
-server.on('clientError', (error, socket) => {
-  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
-})
-// let i = 0
-// server.on('connection', (error, socket) => {
-//   console.log('connection', ++i)
-// })
-server.keepAliveTimeout = 5000
-server.listen(9000)
-console.log('Listening on http://localhost:9000')
+export default function main() {
+  const server = createServer(middleware(handlers))
+  server.on('clientError', (error, socket) => {
+    socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
+  })
+  server.keepAliveTimeout = 5000
+  server.listen(9000)
+  // eslint-disable-next-line no-console
+  console.log('Listening on http://localhost:9000')
+  return server
+}

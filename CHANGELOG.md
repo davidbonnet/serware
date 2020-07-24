@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/davidbonnet/serware/compare/v0.1.3...v0.1.4) (2020-07-24)
+
+
+### Bug Fixes
+
+* reload did not reload all modules ([c385fdb](https://github.com/davidbonnet/serware/commit/c385fdb96bf4fda43d029807917eeb504be44333))
+
 ### [0.1.3](https://github.com/davidbonnet/serware/compare/v0.1.2...v0.1.3) (2020-07-23)
 
 

@@ -28,7 +28,8 @@ import {
 
 async function test(request, next) {
   const response = await next(request)
-  response.body = '<body><h1>Test page</h1></body>'
+  response.body =
+    '<body><h1>Test page</h1><p>It just sets two cookies</p></body>'
   response.setHeader('content-type', 'text/html')
   setCookie(response, 'test', '42', {
     expires: new Date(Date.now() + 10000),
@@ -102,7 +103,7 @@ const LINKS = [
   },
   {
     href: '/counter',
-    label: 'Show counter',
+    label: 'Show visit counter',
   },
   {
     href: '/clear',
@@ -111,11 +112,14 @@ const LINKS = [
 ]
 
 const handlers = compose(
-  // log({
-  //   request(request) {
-  //     console.log('request.headers', request.headers)
-  //   },
-  // }),
+  log({
+    request(request) {
+      console.log('request.headers', request.headers)
+    },
+    response(response) {
+      console.log('response.headers', response.getHeaders())
+    },
+  }),
   branch(
     isCached,
     compose(writeBody, writeHeaders, writeContentLength, useCache),
@@ -129,8 +133,6 @@ const handlers = compose(
   session({
     store,
   }),
-  // printMessage('Hello there'),
-  // null,
   routeUrl({
     '/files': exposeFolder(join(__dirname, 'files')),
     '/a': routeUrl({
@@ -164,7 +166,7 @@ const handlers = compose(
       ),
     ),
   }),
-  printHtmlMessage('Page not found', false),
+  printHtmlMessage('Page not found', '', false),
 )
 
 const raw = (request, response) => {

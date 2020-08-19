@@ -5,9 +5,14 @@ import { lookup as getContentType } from 'mime-types'
 
 import { stat } from './promisified'
 
-export function exposeFolder(folderPath) {
+export function exposeFolder({ path: folderPath, cache = true }) {
   return async function (request, next) {
-    const pathname = join(folderPath, normalize(request.pathname.slice(1)))
+    const pathname = join(
+      folderPath,
+      normalize(
+        (request.pathname == null ? request.url : request.pathname).slice(1),
+      ),
+    )
     if (!isChildPath(folderPath, pathname)) {
       return next(request)
     }
@@ -17,18 +22,19 @@ export function exposeFolder(folderPath) {
       return next(request)
     }
     if (stats.mtime) {
-      response.setHeader('last-modified', stats.mtime.toUTCString())
+      response.setHeader('Last-Modified', stats.mtime.toUTCString())
     }
     const contentType = getContentType(pathname)
     if (contentType) {
-      response.setHeader('content-type', contentType)
+      response.setHeader('Content-Type', contentType)
       if (contentType in COMPRESSIBLE_CONTENT_TYPES) {
         response.compress = true
       }
     }
     if (!response.compress) {
-      response.setHeader('content-length', stats.size)
+      response.setHeader('Content-Length', stats.size)
     }
+    response.cache = cache
     response.body = createReadStream(pathname)
     return response
   }

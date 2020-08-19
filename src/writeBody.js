@@ -1,31 +1,19 @@
-import { Readable } from 'stream'
-import { Buffer } from 'buffer'
-
 import { pipeline } from './promisified'
-import { isStream } from './isStream'
-
-const { isBuffer } = Buffer
+import { toReadableStream } from './toReadableStream'
 
 export async function writeBody(request, next) {
   const response = await next(request)
-  const { body = '', charset, tube } = response
-  const source = isStream(body)
-    ? body
-    : isBuffer(body)
-    ? streamFromBuffer(body)
-    : Readable.from(body, {
-        objectMode: false,
-        encoding: charset,
-      })
+  if (response.writableEnded) {
+    return response
+  }
+  const { body, charset, tube } = response
+  if (body == null) {
+    if (tube) {
+      tube.end()
+    }
+    return response
+  }
+  const source = toReadableStream(body, charset)
   await (tube ? pipeline(source, tube, response) : pipeline(source, response))
   return response
-}
-
-function streamFromBuffer(buffer) {
-  return new Readable({
-    read() {
-      this.push(buffer)
-      this.push(null)
-    },
-  })
 }

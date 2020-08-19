@@ -4,6 +4,7 @@ export function setCookie(response, name, value, options) {
   if (!response.cookies) {
     response.cookies = []
   }
-  response.cookies.push(serialize(name, value, options))
-  return response
+  const cookie = serialize(name, value, options)
+  response.cookies.push(cookie)
+  return cookie
 }

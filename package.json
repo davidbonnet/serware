@@ -11,9 +11,9 @@
     "start": "node --require esm demo/server.js",
     "dev": "concurrently -n \"server,  test\" \"npm:dev:server\" \"npm:dev:test\"",
     "dev:server": "node --require esm demo/watch.js",
-    "dev:test": "ava --watch",
+    "dev:test": "ava --watch --update-snapshots",
     "test": "npm run eslint && npm run prettier:check && npm run test:unit",
-    "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' ava",
+    "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' --exclude='src/mock*.js' ava",
     "eslint": "eslint src/",
     "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
     "prettier:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
@@ -26,7 +26,8 @@
     "http",
     "middleware",
     "session",
-    "file"
+    "file",
+    "test"
   ],
   "author": "David Bonnet <david@bonnet.cc>",
   "license": "MIT",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "cookie": "^0.4.1",
+    "iconv-lite": "^0.6.2",
     "lodash": "^4.17.19",
     "mime-types": "^2.1.27"
   },
@@ -53,7 +55,8 @@
     "fast-glob": "3.2.4",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
-    "standard-version": "^8.0.2"
+    "standard-version": "^8.0.2",
+    "ws": "^7.3.1"
   },
   "prettier": {
     "arrowParens": "always",

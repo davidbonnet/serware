@@ -1,0 +1,8 @@
+{
+  "number": 1,
+  "string": "value",
+  "boolean": true,
+  "null": null,
+  "array": [],
+  "object": {}
+}

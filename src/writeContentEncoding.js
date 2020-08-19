@@ -5,6 +5,9 @@ export async function writeContentEncoding(request, next) {
     request.headers['accept-encoding'],
   )
   const response = await next(request)
+  if (response.headersSent) {
+    return response
+  }
   if (acceptedEncoding && response.compress) {
     response.setHeader('content-encoding', acceptedEncoding)
   }

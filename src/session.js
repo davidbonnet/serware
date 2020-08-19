@@ -1,6 +1,7 @@
 import { randomBytes } from './promisified'
 import { getCookies } from './getCookies'
 import { setCookie } from './setCookie'
+import { getNow } from './getNow'
 
 export function session({
   store,
@@ -10,6 +11,7 @@ export function session({
   sameSite = 'lax',
   domain,
   path,
+  generateKey = defaultGenerateKey,
 }) {
   return async function (request, next) {
     const cookies = getCookies(request)
@@ -21,19 +23,23 @@ export function session({
     request.session = session
     const response = await next(request)
     if (request.session) {
+      if (response.refreshSession && key) {
+        await store.delete(key)
+        key = undefined
+      }
       if (!key) {
-        key = (await randomBytes(48)).toString('hex')
+        key = await generateKey()
         setCookie(response, name, key, {
           httpOnly: true,
           maxAge,
-          expires: new Date(Date.now() + maxAge * 1000),
+          expires: new Date(getNow() + maxAge * 1000),
           secure,
           sameSite,
           domain,
           path,
         })
       }
-      if (request.session !== session) {
+      if (response.refreshSession || request.session !== session) {
         await store.set(key, request.session)
       }
       return response
@@ -48,10 +54,14 @@ export function session({
         domain,
         path,
       })
-      await store.set(key)
+      await store.delete(key)
     }
     return response
   }
 }
 
 const DAYS = 24 * 60 * 60
+
+async function defaultGenerateKey() {
+  return (await randomBytes(48)).toString('hex')
+}

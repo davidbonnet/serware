@@ -1,22 +1,18 @@
-import { createServer } from 'http'
+import { Server as HTTPServer } from 'http'
 import { join } from 'path'
 
+import { Server as WebSocketServer } from 'ws'
+
 import {
-  branch,
   cache,
-  compose,
+  combine,
   exact,
   exposeFolder,
-  isCached,
-  isCompressible,
   log,
-  middleware,
   routeMethod,
   routeUrl,
   session,
   setCookie,
-  useCache,
-  writeBody,
   writeCompressibleBody,
   writeContentEncoding,
   writeContentLength,
@@ -24,6 +20,10 @@ import {
   writeHeaders,
   getSessionValue,
   setSessionValue,
+  onRequest,
+  onUpgrade,
+  handleError,
+  parseBodyJson,
 } from '../main'
 
 async function test(request, next) {
@@ -52,39 +52,63 @@ async function printPath(request) {
   return response
 }
 
-function printMessage(message, contentType = 'text/plain', cache = true) {
+function printMessage(
+  message,
+  contentType = 'text/plain',
+  cache = true,
+  compress,
+) {
   return function (request) {
     const response = request.respond()
     response.body = typeof message === 'function' ? message(request) : message
     response.setHeader('content-type', contentType)
     response.cache = cache && typeof message !== 'function'
+    response.compress = compress
     return response
   }
 }
 
-function printHtmlMessage(title, body = '', cache) {
+function printHtmlMessage(title, body = '', cache, compress) {
   return function (request, next) {
     return printMessage(
       `<html><head><title>${title}</title></head><body><h1>${title}</h1>${body}</body></html>`,
       'text/html',
       cache,
+      compress,
     )(request, next)
   }
 }
 
-const SESSIONS = {}
+const SESSIONS = new Map()
 const { stringify: formatJson, parse: parseJson } = JSON
 
-const store = {
+const sessionStore = {
   get(key) {
-    return SESSIONS[key]
+    return Promise.resolve(SESSIONS.get(key))
   },
   set(key, value) {
-    if (value == null) {
-      delete SESSIONS[key]
+    SESSIONS.set(key, value)
+  },
+  delete(key) {
+    SESSIONS.delete(key)
+  },
+}
+
+const CACHE = new Map()
+
+const cacheStore = {
+  async has(request) {
+    return Promise.resolve(CACHE.has(request.url))
+  },
+  async get(request) {
+    return Promise.resolve(CACHE.get(request.url))
+  },
+  async set(request, response) {
+    if (response == null) {
+      CACHE.delete(request.url)
       return
     }
-    SESSIONS[key] = value
+    CACHE.set(request.url, response)
   },
 }
 
@@ -103,7 +127,11 @@ const LINKS = [
   },
   {
     href: '/counter',
-    label: 'Show visit counter',
+    label: 'Create session',
+  },
+  {
+    href: '/refresh-session',
+    label: 'Refresh current session',
   },
   {
     href: '/clear',
@@ -111,36 +139,83 @@ const LINKS = [
   },
 ]
 
-const handlers = compose(
+const webSocketServer = new WebSocketServer({
+  noServer: true,
+  clientTracking: true,
+})
+
+const handle = combine(
   log({
     request(request) {
+      // eslint-disable-next-line no-console
       console.log('request.headers', request.headers)
     },
     response(response) {
+      // eslint-disable-next-line no-console
       console.log('response.headers', response.getHeaders())
     },
   }),
-  branch(
-    isCached,
-    compose(writeBody, writeHeaders, writeContentLength, useCache),
-  ),
+  handleError({
+    callback(error) {
+      // eslint-disable-next-line no-console
+      console.log('error', error)
+    },
+  }),
   writeCompressibleBody,
-  cache,
   writeHeaders,
   writeContentLength,
+  cache({
+    store: cacheStore,
+  }),
   writeContentEncoding,
   writeCookies,
   session({
-    store,
+    store: sessionStore,
   }),
   routeUrl({
-    '/files': exposeFolder(join(__dirname, 'files')),
+    '/files': exposeFolder({ path: join(__dirname, 'files') }),
     '/a': routeUrl({
       '/b': exact(routeMethod({ GET: printHtmlMessage('This is a/b') })),
       '/b2': printPath,
       '/c': routeMethod({ POST: printHtmlMessage('This is a/b') }),
       '': printHtmlMessage('This is the first page A'),
     }),
+    '/ws': exact(async (request) => {
+      if (request.session == null) {
+        return request.respond({ statusCode: 403 })
+      }
+      const heartbeat = getSessionValue(request, 'heartbeat')
+      if (heartbeat != null) {
+        global.clearInterval(heartbeat)
+      }
+      const webSocket = await request.connect(webSocketServer)
+      webSocket.send('Hello!')
+      const newHeartbeat = setSessionValue(
+        request,
+        'heartbeat',
+        global.setInterval(() => {
+          webSocket.send('Heartbeat')
+        }, 2000),
+      )
+      webSocket.on('close', () => {
+        global.clearInterval(newHeartbeat)
+      })
+      return request.respond()
+    }),
+    '/data': exact(
+      combine(
+        routeMethod({
+          POST: async (request) => {
+            const data = await parseBodyJson(request, 1024 * 1024)
+            const response = request.respond()
+            response.setHeader('Content-Type', 'application/json')
+            response.body = JSON.stringify({ result: data, status: 'OK' })
+            return response
+          },
+        }),
+        (request) => request.respond({ statusCode: 405 }),
+      ),
+    ),
     '/test': exact(test),
     '/hello': exact(printMessage('Hello there')),
     '/counter': exact(async (request, next) => {
@@ -156,13 +231,26 @@ const handlers = compose(
       response.body = `Cleared the session`
       return response
     }),
-    '/sessions': exact(printMessage(() => formatJson(SESSIONS, null, 2))),
+    '/sessions': exact(
+      printMessage(() =>
+        formatJson(Object.fromEntries(SESSIONS.entries()), null, 2),
+      ),
+    ),
+    '/refresh-session': exact(
+      combine(async (request, next) => {
+        const response = await next(request)
+        response.refreshSession = true
+        return response
+      }, printMessage('Session is refreshed for 7 more days')),
+    ),
     '/': exact(
       printHtmlMessage(
         'Index',
         `<ul>${LINKS.map(
           (link) => `<li><a href="${link.href}">${link.label}</a></li>`,
         ).join('')}</ul>`,
+        true,
+        true,
       ),
     ),
   }),
@@ -176,9 +264,14 @@ const raw = (request, response) => {
 }
 
 export default function main() {
-  const server = createServer(middleware(handlers))
+  const server = new HTTPServer()
+  server.on('request', onRequest(handle))
+  server.on('upgrade', onUpgrade(handle))
   server.on('clientError', (error, socket) => {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
+  })
+  server.on('close', () => {
+    webSocketServer.close()
   })
   server.keepAliveTimeout = 5000
   server.listen(9000)

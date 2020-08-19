@@ -10,10 +10,12 @@
 
 ### Features
 
+- Fast
 - Composable asynchronous handlers
 - Simple URL and method-based routers
 - Store-agnostic session handler
 - File handlers and compression support
+- Modern and flexible body parser
 
 ## Work-in-progress
 
@@ -22,6 +24,7 @@
 ### Roadmap
 
 - Pre-cache facility
+- Multipart and form parser
 - Full test coverage
-- Deno compatibility
 - TypeScript types
+- Deno compatibility

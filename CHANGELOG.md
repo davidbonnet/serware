@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/davidbonnet/serware/compare/v0.1.5...v0.1.6) (2020-08-19)
+
+
+### Bug Fixes
+
+* lint ([a7c6d9e](https://github.com/davidbonnet/serware/commit/a7c6d9efa291839779949df971209ee9b75c1410))
+
 ### [0.1.5](https://github.com/davidbonnet/serware/compare/v0.1.4...v0.1.5) (2020-08-19)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/davidbonnet/serware/compare/v0.1.4...v0.1.5) (2020-08-19)
+
+
+### Features
+
+* error handling, websocket, and body parser ([cc31bfb](https://github.com/davidbonnet/serware/commit/cc31bfb68d3aa279dd8da4fe38cee405455f64e9))
+
 ### [0.1.4](https://github.com/davidbonnet/serware/compare/v0.1.3...v0.1.4) (2020-07-24)
 
 

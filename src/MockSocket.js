@@ -57,4 +57,3 @@ export class MockSocket extends Duplex {
     return this
   }
 }
-

@@ -59,6 +59,7 @@ const EMPTY_RESPONSE = {
   writableEnded: true,
   writableFinished: true,
 
+  /* eslint-disable no-unused-vars */
   addTrailers(headers) {},
   end(data, encoding, callback) {},
   flushHeaders() {},
@@ -73,4 +74,5 @@ const EMPTY_RESPONSE = {
   write(chunk, encoding, callback) {},
   writeContinue() {},
   writeProcessing() {},
+  /* eslint-enable no-unused-vars */
 }

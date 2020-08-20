@@ -1,9 +1,11 @@
 import { createUnzip } from 'zlib'
 
+import { toLower } from 'lodash'
+
 import { HTTPError } from './HTTPError'
 
 export function decompress(stream, encoding = 'identity', options) {
-  switch (encoding && encoding.toLowerCase()) {
+  switch (toLower(encoding)) {
     case 'gzip':
     case 'deflate':
       break

@@ -31,8 +31,8 @@ export function session({
         key = await generateKey()
         setCookie(response, name, key, {
           httpOnly: true,
-          maxAge,
-          expires: new Date(getNow() + maxAge * 1000),
+          maxAge: (maxAge / 1000) | 0,
+          expires: new Date(getNow() + maxAge),
           secure,
           sameSite,
           domain,
@@ -60,7 +60,7 @@ export function session({
   }
 }
 
-const DAYS = 24 * 60 * 60
+const DAYS = 24 * 60 * 60 * 1000
 
 async function defaultGenerateKey() {
   return (await randomBytes(48)).toString('hex')

@@ -9,6 +9,7 @@ import { getAcceptedEncodingList } from './getAcceptedEncodingList'
 export function exposeFolder({
   path: folderPath,
   cache = false,
+  maxAge = 1 * YEARS,
   lastModified = true,
 }) {
   return async function (request, next) {
@@ -21,7 +22,6 @@ export function exposeFolder({
     if (!isChildPath(folderPath, pathname)) {
       return next(request)
     }
-    const response = request.respond()
     let stats
     try {
       stats = await stat(pathname)
@@ -33,6 +33,10 @@ export function exposeFolder({
     }
     if (!stats.isFile()) {
       return next(request)
+    }
+    const response = request.respond()
+    if (maxAge) {
+      response.setHeader('Cache-Control', `public, max-age=${maxAge}`)
     }
     if (lastModified && stats.mtime) {
       response.setHeader('Last-Modified', stats.mtime.toUTCString())
@@ -98,3 +102,5 @@ const COMPRESSIBLE_CONTENT_TYPES = {
   'application/rss+xml': true,
   'application/atom_xml': true,
 }
+
+const YEARS = 60 * 60 * 24 * 365

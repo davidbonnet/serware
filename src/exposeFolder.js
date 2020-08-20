@@ -4,10 +4,11 @@ import { createReadStream } from 'fs'
 import { lookup as getContentType } from 'mime-types'
 
 import { stat } from './promisified'
+import { getAcceptedEncodingList } from './getAcceptedEncodingList'
 
 export function exposeFolder({
   path: folderPath,
-  cache = true,
+  cache = false,
   lastModified = true,
 }) {
   return async function (request, next) {
@@ -21,7 +22,15 @@ export function exposeFolder({
       return next(request)
     }
     const response = request.respond()
-    const stats = await stat(pathname)
+    let stats
+    try {
+      stats = await stat(pathname)
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        return next(request)
+      }
+      throw error
+    }
     if (!stats.isFile()) {
       return next(request)
     }
@@ -32,12 +41,33 @@ export function exposeFolder({
     if (contentType) {
       response.setHeader('Content-Type', contentType)
       if (contentType in COMPRESSIBLE_CONTENT_TYPES) {
+        // Look for compressed version
+        const acceptedEncodingList = getAcceptedEncodingList(
+          request.headers['accept-encoding'],
+        )
+        const { length } = acceptedEncodingList
+        for (let i = 0; i < length; i++) {
+          const acceptedEncoding = acceptedEncodingList[i]
+          const compressedPathname = `${pathname}.${acceptedEncoding}`
+          try {
+            const stats = await stat(compressedPathname)
+            if (stats.isFile()) {
+              response.body = createReadStream(compressedPathname)
+              response.setHeader('Content-Length', stats.size)
+              return response
+            }
+          } catch (error) {
+            // Ignore
+          }
+        }
+        // Enable compression for other handlers
         response.compress = true
       }
     }
     if (!response.compress) {
       response.setHeader('Content-Length', stats.size)
     }
+    // Enable cache for other handlers
     response.cache = cache
     response.body = createReadStream(pathname)
     return response

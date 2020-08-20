@@ -7,6 +7,7 @@ import { writeHeaders } from '../writeHeaders'
 import { writeContentLength } from '../writeContentLength'
 import { routeUrl } from '../routeUrl'
 import { exact } from '../exact'
+import { STATUS_CODES } from '../STATUS_CODES'
 
 test('routes url', async (assert) => {
   const handlerA = async (request) => {
@@ -44,9 +45,7 @@ test('routes url', async (assert) => {
         '/a': handlerA,
       }),
     }),
-    (request) => {
-      return request.respond({ statusCode: 404, body: '' })
-    },
+    (request) => request.respond({ statusCode: STATUS_CODES.NOT_FOUND }),
   )
   const responseA = await ask(handler, {
     url: '/a',

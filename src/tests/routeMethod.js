@@ -6,6 +6,7 @@ import { writeBody } from '../writeBody'
 import { writeHeaders } from '../writeHeaders'
 import { writeContentLength } from '../writeContentLength'
 import { routeMethod } from '../routeMethod'
+import { STATUS_CODES } from '../STATUS_CODES'
 
 test('routes url', async (assert) => {
   const handler = combine(
@@ -30,7 +31,7 @@ test('routes url', async (assert) => {
       },
     }),
     (request) => {
-      return request.respond({ statusCode: 405 })
+      return request.respond({ statusCode: STATUS_CODES.METHOD_NOT_ALLOWED })
     },
   )
   const responseGET = await ask(handler, {

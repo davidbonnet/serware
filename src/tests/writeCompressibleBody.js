@@ -8,7 +8,7 @@ import { writeContentEncoding } from '../writeContentEncoding'
 import { writeContentLength } from '../writeContentLength'
 import { writeCookies } from '../writeCookies'
 
-test('writes body in gzip', async (assert) => {
+test.skip('writes body in gzip', async (assert) => {
   const handler = combine(
     writeCompressibleBody,
     writeHeaders,

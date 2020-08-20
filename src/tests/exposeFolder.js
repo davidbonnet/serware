@@ -34,7 +34,7 @@ test('exposes folder', async (assert) => {
       'accept-encoding': 'br,gzip',
     },
   })
-  assert.snapshot(await response3.toString(), 'returns compressed json file')
+  assert.snapshot(await response3.toBinary(), 'returns compressed json file')
   const response4 = await ask(handler, {
     url: '/missing.file',
     headers: {

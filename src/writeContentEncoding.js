@@ -10,6 +10,10 @@ export async function writeContentEncoding(request, next) {
   }
   if (acceptedEncoding && response.compress) {
     response.setHeader('content-encoding', acceptedEncoding)
+    return response
+  }
+  if (response.compress) {
+    response.compress = false
   }
   return response
 }

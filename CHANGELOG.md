@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/davidbonnet/serware/compare/v0.1.6...v0.1.7) (2020-08-20)
+
+
+### Features
+
+* add maxAge support to exposeFolder ([045b2ee](https://github.com/davidbonnet/serware/commit/045b2ee07c0990d120e1b89970a7ba2ff5544107))
+* add status code constants ([88cc2aa](https://github.com/davidbonnet/serware/commit/88cc2aaf4b30d4112071c0935c56c14115915831))
+* return compressed version if any found ([e497428](https://github.com/davidbonnet/serware/commit/e497428502a93b7386c74a3799f80103035b8e0d))
+
+
+### Bug Fixes
+
+* add binary response support ([8c4116f](https://github.com/davidbonnet/serware/commit/8c4116fdffffebff32d5b6a3118e0e9f4e541f7a))
+* optional update date in exposeFolder ([20b511a](https://github.com/davidbonnet/serware/commit/20b511ac65bc7c47459d9753a8c74ed20c9a311d))
+* skipping gzip test ([7787d77](https://github.com/davidbonnet/serware/commit/7787d77cb8302b651602b30a14d40934b583a43c))
+* stabilize decompress tool ([c447072](https://github.com/davidbonnet/serware/commit/c447072af01e23e1bfbcf423e6c5b4c6dcd819da))
+
 ### [0.1.6](https://github.com/davidbonnet/serware/compare/v0.1.5...v0.1.6) (2020-08-19)
 
 

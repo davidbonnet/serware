@@ -11,6 +11,7 @@
 ### Features
 
 - Fast
+- Minimal abstraction over the native HTTP library
 - Composable asynchronous handlers
 - Simple URL and method-based routers
 - Store-agnostic session handler
@@ -23,7 +24,6 @@
 
 ### Roadmap
 
-- Pre-cache facility
 - Multipart and form parser
 - Full test coverage
 - TypeScript types

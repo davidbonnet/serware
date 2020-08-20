@@ -5,7 +5,11 @@ import { lookup as getContentType } from 'mime-types'
 
 import { stat } from './promisified'
 
-export function exposeFolder({ path: folderPath, cache = true }) {
+export function exposeFolder({
+  path: folderPath,
+  cache = true,
+  lastModified = true,
+}) {
   return async function (request, next) {
     const pathname = join(
       folderPath,
@@ -21,7 +25,7 @@ export function exposeFolder({ path: folderPath, cache = true }) {
     if (!stats.isFile()) {
       return next(request)
     }
-    if (stats.mtime) {
+    if (lastModified && stats.mtime) {
       response.setHeader('Last-Modified', stats.mtime.toUTCString())
     }
     const contentType = getContentType(pathname)

@@ -15,6 +15,7 @@ test('exposes folder', async (assert) => {
     exposeFolder({
       path: join(__dirname, './fixtures/files'),
       cache: false,
+      lastModified: false,
     }),
   )
   const response1 = await ask(handler, {

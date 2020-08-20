@@ -24,6 +24,7 @@ import {
   onUpgrade,
   handleError,
   parseBodyJson,
+  STATUS_CODES,
 } from '../main'
 
 async function test(request, next) {
@@ -182,7 +183,7 @@ const handle = combine(
     }),
     '/ws': exact(async (request) => {
       if (request.session == null) {
-        return request.respond({ statusCode: 403 })
+        return request.respond({ statusCode: STATUS_CODES.FORBIDDEN })
       }
       const heartbeat = getSessionValue(request, 'heartbeat')
       if (heartbeat != null) {
@@ -213,7 +214,8 @@ const handle = combine(
             return response
           },
         }),
-        (request) => request.respond({ statusCode: 405 }),
+        (request) =>
+          request.respond({ statusCode: STATUS_CODES.METHOD_NOT_ALLOWED }),
       ),
     ),
     '/test': exact(test),

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/davidbonnet/serware/compare/v0.1.7...v0.1.8) (2020-08-20)
+
+
+### Bug Fixes
+
+* add missing exports ([3fc9725](https://github.com/davidbonnet/serware/commit/3fc972548f7af982c9cbf0470682e3526d8b9b86))
+
 ### [0.1.7](https://github.com/davidbonnet/serware/compare/v0.1.6...v0.1.7) (2020-08-20)
 
 

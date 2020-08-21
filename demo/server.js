@@ -5,26 +5,27 @@ import { Server as WebSocketServer } from 'ws'
 
 import {
   cache,
+  captureUrl,
   combine,
   exact,
   exposeFolder,
+  getSessionValue,
+  handleError,
   log,
+  onRequest,
+  onUpgrade,
+  parseBodyJson,
   routeMethod,
   routeUrl,
   session,
   setCookie,
+  setSessionValue,
+  STATUS_CODES,
   writeCompressibleBody,
   writeContentEncoding,
   writeContentLength,
   writeCookies,
   writeHeaders,
-  getSessionValue,
-  setSessionValue,
-  onRequest,
-  onUpgrade,
-  handleError,
-  parseBodyJson,
-  STATUS_CODES,
 } from '../main'
 
 async function test(request, next) {
@@ -44,9 +45,7 @@ async function test(request, next) {
 }
 
 async function printPath(request) {
-  const body = `<body><h1>Print path</h1><p>Got pathname: "${
-    request.pathname
-  }" and breadcrumbs: "${request.breadcrumbs.join(' - ')}"</p></body>`
+  const body = `<body><h1>Print path</h1><p>Got pathname: "${request.pathname}"</p></body>`
   const response = request.respond()
   response.body = body
   response.setHeader('content-type', 'text/html')
@@ -81,7 +80,7 @@ function printHtmlMessage(title, body = '', cache, compress) {
 }
 
 const SESSIONS = new Map()
-const { stringify: formatJson, parse: parseJson } = JSON
+const { stringify: formatJson } = JSON
 
 const sessionStore = {
   get(key) {
@@ -256,14 +255,16 @@ const handle = combine(
       ),
     ),
   }),
+  combine(
+    captureUrl(/\/([a-z_]+)\/([0-9]+)/, 'project', 'id'),
+    exact((request) =>
+      request.respond({
+        body: JSON.stringify(request.captures, null, 2),
+      }),
+    ),
+  ),
   printHtmlMessage('Page not found', '', false),
 )
-
-const raw = (request, response) => {
-  response.writeHead(200, 'OK')
-  const body = 'Hello there'
-  response.write(body, response.charset, () => response.end())
-}
 
 export default function main() {
   const server = new HTTPServer()

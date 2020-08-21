@@ -1,6 +1,7 @@
 export { ask } from './src/ask'
 export { branch } from './src/branch'
 export { cache } from './src/cache'
+export { captureUrl } from './src/captureUrl'
 export { clearSession } from './src/clearSession'
 export { combine } from './src/combine'
 export { decompress } from './src/decompress'

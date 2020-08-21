@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/davidbonnet/serware/compare/v0.1.8...v0.2.0) (2020-08-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* `request.breadcrumbs` are removed.
+
+The routeUrl handler now sets the original request `pathname` before
+passing it to the next handler.
+
+### Features
+
+* add captureUrl ([b3b7e28](https://github.com/davidbonnet/serware/commit/b3b7e283d6a7d2831a8fdd87225c28079b8392dd))
+
+
+### Bug Fixes
+
+* fix routeUrl and remove breadcrumbs ([ae6099c](https://github.com/davidbonnet/serware/commit/ae6099cc40d875bba51839c48ba45dae70d5abf4))
+
 ### [0.1.8](https://github.com/davidbonnet/serware/compare/v0.1.7...v0.1.8) (2020-08-20)
 
 

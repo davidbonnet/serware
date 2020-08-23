@@ -5,7 +5,7 @@ import { Server as WebSocketServer } from 'ws'
 
 import {
   cache,
-  captureUrl,
+  matchUrl,
   combine,
   exact,
   exposeFolder,
@@ -120,6 +120,10 @@ const LINKS = [
   {
     href: '/test',
     label: 'Test page',
+  },
+  {
+    href: '/project/123',
+    label: 'Match URL example',
   },
   {
     href: '/sessions',
@@ -255,13 +259,10 @@ const handle = combine(
       ),
     ),
   }),
-  combine(
-    captureUrl(/\/([a-z_]+)\/([0-9]+)/, 'project', 'id'),
-    exact((request) =>
-      request.respond({
-        body: JSON.stringify(request.captures, null, 2),
-      }),
-    ),
+  matchUrl(/\/([a-z_]+)\/([0-9]+)$/, ['project', 'id'], (request) =>
+    request.respond({
+      body: JSON.stringify(request.matches, null, 2),
+    }),
   ),
   printHtmlMessage('Page not found', '', false),
 )

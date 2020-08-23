@@ -1,6 +1,6 @@
 import { URL } from 'url'
 
-export function captureUrl(pattern, ...names) {
+export function matchUrl(pattern, groupNames, handler) {
   return function (request, next) {
     if (!request.href) {
       const href = new URL(
@@ -14,16 +14,16 @@ export function captureUrl(pattern, ...names) {
     if (match == null || match.index !== 0) {
       return next(request)
     }
-    if (request.captures == null) {
-      request.captures = {}
+    if (request.matches == null) {
+      request.matches = {}
     }
-    const { captures } = request
-    const { length } = names
+    const { matches } = request
+    const { length } = groupNames
     for (let i = 0; i < length; i++) {
-      const name = names[i]
-      captures[name] = match[i + 1]
+      const name = groupNames[i]
+      matches[name] = match[i + 1]
     }
     request.pathname = pathname.slice(match[0].length)
-    return next(request)
+    return handler(request, next)
   }
 }

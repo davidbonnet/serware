@@ -19,6 +19,8 @@
     "prettier:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
     "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
     "deploy": "git push --follow-tags origin master && npm publish"
   },
   "keywords": [

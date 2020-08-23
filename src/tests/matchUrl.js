@@ -15,7 +15,7 @@ test('matches url patterns', async (assert) => {
     writeHeaders,
     writeContentLength,
     matchUrl(
-      /\/([a-z_]+)\/([0-9]+)/,
+      /^\/([a-z_]+)\/([0-9]+)/,
       ['project', 'id'],
       exact((request) =>
         request.respond({

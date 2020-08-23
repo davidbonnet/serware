@@ -259,7 +259,7 @@ const handle = combine(
       ),
     ),
   }),
-  matchUrl(/\/([a-z_]+)\/([0-9]+)$/, ['project', 'id'], (request) =>
+  matchUrl(/^\/([a-z_]+)\/([0-9]+)$/, ['project', 'id'], (request) =>
     request.respond({
       body: JSON.stringify(request.matches, null, 2),
     }),

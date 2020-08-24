@@ -10,7 +10,7 @@ export function session({
   secure,
   sameSite = 'lax',
   domain,
-  path,
+  path = '/',
   generateKey = defaultGenerateKey,
 }) {
   return async function (request, next) {

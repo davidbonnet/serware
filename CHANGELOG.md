@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/davidbonnet/serware/compare/v0.3.0...v0.4.0) (2020-08-24)
+
+
+### Features
+
+* session cookies default to root path ([7a438f7](https://github.com/davidbonnet/serware/commit/7a438f749dfd307aed9f56e35e9177f377b2e0b8))
+* support status prop in response objects ([3909649](https://github.com/davidbonnet/serware/commit/390964973d0e5616e5bc346bda9609ec4d649089))
+
+
+### Bug Fixes
+
+* status codes are now integers ([db5efc2](https://github.com/davidbonnet/serware/commit/db5efc2a67dff34793cf8e354a8748e6dc6d0d07))
+
 ## [0.3.0](https://github.com/davidbonnet/serware/compare/v0.2.0...v0.3.0) (2020-08-23)
 
 

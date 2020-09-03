@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/davidbonnet/serware/compare/v0.5.0...v0.6.0) (2020-09-03)
+
+
+### Features
+
+* add keyTransform decorator ([3865eeb](https://github.com/davidbonnet/serware/commit/3865eebe9359f0dafb023c2f542250e8b376a3f2))
+
 ## [0.5.0](https://github.com/davidbonnet/serware/compare/v0.4.0...v0.5.0) (2020-08-30)
 
 

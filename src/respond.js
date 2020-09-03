@@ -4,9 +4,14 @@ export function respond(response, options) {
     response.statusCode = statusCode
   }
   if (headers != null) {
-    // TODO: Check if headers are iterable
-    for (const name in headers) {
-      response.setHeader(name, headers[name])
+    if (typeof headers.entries === 'function') {
+      for (const value of headers.entries()) {
+        response.setHeader(value[0], headers[value[1]])
+      }
+    } else {
+      for (const name in headers) {
+        response.setHeader(name, headers[name])
+      }
     }
   }
   if (body != null) {

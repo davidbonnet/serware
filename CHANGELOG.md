@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/davidbonnet/serware/compare/v0.6.0...v0.7.0) (2020-09-03)
+
+
+### Features
+
+* support WebAPI headers in response ([8fc0cb2](https://github.com/davidbonnet/serware/commit/8fc0cb2f1e73ec0ee04aab0acae6d88646ab4c1e))
+
 ## [0.6.0](https://github.com/davidbonnet/serware/compare/v0.5.0...v0.6.0) (2020-09-03)
 
 

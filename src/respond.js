@@ -6,10 +6,17 @@ export function respond(response, options) {
   if (headers != null) {
     if (typeof headers.entries === 'function') {
       for (const value of headers.entries()) {
-        response.setHeader(value[0], headers[value[1]])
+        if (value[1] == null) {
+          continue
+        }
+        response.setHeader(value[0], value[1])
       }
     } else {
       for (const name in headers) {
+        const value = headers[name]
+        if (value == null) {
+          continue
+        }
         response.setHeader(name, headers[name])
       }
     }

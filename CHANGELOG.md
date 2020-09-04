@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/davidbonnet/serware/compare/v0.7.0...v0.7.1) (2020-09-04)
+
+
+### Bug Fixes
+
+* respond did not get iterable headers values ([ef65499](https://github.com/davidbonnet/serware/commit/ef65499e86d2007b4d7be7e565d0bc51c2c7a847))
+
 ## [0.7.0](https://github.com/davidbonnet/serware/compare/v0.6.0...v0.7.0) (2020-09-03)
 
 

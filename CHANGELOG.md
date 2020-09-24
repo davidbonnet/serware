@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/davidbonnet/serware/compare/v0.7.1...v0.8.0) (2020-09-24)
+
+
+### Bug Fixes
+
+* stringify JSON in withJson ([856d508](https://github.com/davidbonnet/serware/commit/856d50841ddd9ecd238db8e8b07eb040264d63ea))
+
 ### [0.7.1](https://github.com/davidbonnet/serware/compare/v0.7.0...v0.7.1) (2020-09-04)
 
 

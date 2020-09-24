@@ -1,3 +1,5 @@
+const { JSON } = global
+
 export function withJson(value, options = null) {
   return {
     ...options,
@@ -5,6 +7,6 @@ export function withJson(value, options = null) {
       ...(options != null && options.headers != null ? options.headers : null),
       'Content-Type': 'application/json',
     },
-    body: value,
+    body: JSON.stringify(value),
   }
 }

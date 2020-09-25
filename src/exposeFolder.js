@@ -13,10 +13,10 @@ export function exposeFolder({
   lastModified = true,
 }) {
   return async function (request, next) {
-    const pathname = join(
-      folderPath,
-      normalize(
-        (request.pathname == null ? request.url : request.pathname).slice(1),
+    const pathname = normalize(
+      join(
+        folderPath,
+        request.pathname == null ? request.url.slice(1) : request.pathname,
       ),
     )
     if (!isChildPath(folderPath, pathname)) {

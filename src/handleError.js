@@ -23,7 +23,7 @@ export function handleError({ callback, Response = DefaultResponse } = {}) {
       response.statusCode = error.statusCode || 500
       response.body = error.statusCode ? error.message : undefined
       if (callback) {
-        await callback(error, response)
+        await callback(error, request, response)
       }
       if (!response.headersSent) {
         const { statusCode, body = '', charset } = response

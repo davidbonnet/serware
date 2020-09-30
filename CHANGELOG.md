@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/davidbonnet/serware/compare/v0.9.0...v0.10.0) (2020-09-30)
+
+
+### Bug Fixes
+
+* **session:** omit from session if undefined value ([a5d6269](https://github.com/davidbonnet/serware/commit/a5d62692e8b06f5efe8888399dd5fb8f2610f2cb))
+* **withJson:** handle iterable headers in options ([3fd91a0](https://github.com/davidbonnet/serware/commit/3fd91a04ec85776154e4345999b588bb03beee58))
+
 ## [0.9.0](https://github.com/davidbonnet/serware/compare/v0.8.1...v0.9.0) (2020-09-25)
 
 

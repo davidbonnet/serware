@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/davidbonnet/serware/compare/v0.10.0...v0.11.0) (2020-10-29)
+
+
+### Features
+
+* export COMPRESSIBLE_CONTENT_TYEPS ([f69b1b9](https://github.com/davidbonnet/serware/commit/f69b1b9797aba1b7928df5cc342e0b8b2e60803d))
+
 ## [0.10.0](https://github.com/davidbonnet/serware/compare/v0.9.0...v0.10.0) (2020-09-30)
 
 

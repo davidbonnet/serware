@@ -5,6 +5,7 @@ import { lookup as getContentType } from 'mime-types'
 
 import { stat } from './promisified'
 import { getAcceptedEncodingList } from './getAcceptedEncodingList'
+import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
 
 export function exposeFolder({
   path: folderPath,
@@ -81,26 +82,6 @@ export function exposeFolder({
 function isChildPath(parent, current) {
   const path = relative(parent, current)
   return path && !path.startsWith('..') && !isAbsolute(path)
-}
-
-const COMPRESSIBLE_CONTENT_TYPES = {
-  'text/css': true,
-  'text/plain': true,
-  'text/html': true,
-  'text/javascript': true,
-  'application/javascript': true,
-  'application/json': true,
-  'application/x-javascript': true,
-  'application/xml': true,
-  'application/xml+rss': true,
-  'application/xhtml+xml': true,
-  'application/x-font-ttf': true,
-  'application/x-font-opentype': true,
-  'application/vnd.ms-fontobject': true,
-  'image/svg+xml': true,
-  'image/x-icon': true,
-  'application/rss+xml': true,
-  'application/atom_xml': true,
 }
 
 const YEARS = 60 * 60 * 24 * 365

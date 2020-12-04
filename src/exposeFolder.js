@@ -19,7 +19,7 @@ export function exposeFolder({
     const pathname = normalize(
       join(
         folderPath,
-        request.pathname == null ? request.url.slice(1) : request.pathname,
+        request.pathname == null ? request.url : request.pathname,
       ),
     )
     if (!isChildPath(folderPath, pathname)) {

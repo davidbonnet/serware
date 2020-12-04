@@ -42,4 +42,8 @@ test('exposes folder', async (assert) => {
     },
   })
   assert.snapshot(await response4.toString(), 'returns not found')
+  const response5 = await ask(handler, {
+    url: '/Example%20Text.txt',
+  })
+  assert.snapshot(await response5.toString(), 'returns txt file')
 })

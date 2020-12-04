@@ -8,6 +8,8 @@ import { getAcceptedEncodingList } from './getAcceptedEncodingList'
 import { isChildPath } from './isChildPath'
 import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
 
+const { decodeURI } = global
+
 export function exposeFolder({
   path: folderPath,
   index,
@@ -19,7 +21,7 @@ export function exposeFolder({
     const pathname = normalize(
       join(
         folderPath,
-        request.pathname == null ? request.url : request.pathname,
+        decodeURI(request.pathname == null ? request.url : request.pathname),
       ),
     )
     if (!isChildPath(folderPath, pathname)) {

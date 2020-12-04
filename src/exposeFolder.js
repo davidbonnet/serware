@@ -10,6 +10,7 @@ import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
 
 export function exposeFolder({
   path: folderPath,
+  index,
   cache = false,
   maxAge = 1 * YEARS,
   lastModified = true,
@@ -34,6 +35,9 @@ export function exposeFolder({
       throw error
     }
     if (!stats.isFile()) {
+      if (index != null && stats.isDirectory()) {
+        return index(pathname, request)
+      }
       return next(request)
     }
     const response = request.respond()

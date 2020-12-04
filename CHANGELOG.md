@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.4](https://github.com/davidbonnet/serware/compare/v0.11.3...v0.11.4) (2020-12-04)
+
+
+### Bug Fixes
+
+* **exposeFolder:** handle URI encoding ([e1cc0e3](https://github.com/davidbonnet/serware/commit/e1cc0e330273d2b66eb78c82b5767f42b3cf6078))
+
 ### [0.11.3](https://github.com/davidbonnet/serware/compare/v0.11.2...v0.11.3) (2020-12-04)
 
 

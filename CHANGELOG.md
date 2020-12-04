@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.3](https://github.com/davidbonnet/serware/compare/v0.11.2...v0.11.3) (2020-12-04)
+
+
+### Bug Fixes
+
+* **isChildPath:** include self ([b3682ef](https://github.com/davidbonnet/serware/commit/b3682eff4af623ddc42423aba68d963bd856805a))
+
 ### [0.11.2](https://github.com/davidbonnet/serware/compare/v0.11.1...v0.11.2) (2020-12-04)
 
 

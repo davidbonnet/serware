@@ -1,10 +1,11 @@
-import { relative, isAbsolute, join, normalize } from 'path'
+import { join, normalize } from 'path'
 import { createReadStream } from 'fs'
 
 import { lookup as getContentType } from 'mime-types'
 
 import { stat } from './promisified'
 import { getAcceptedEncodingList } from './getAcceptedEncodingList'
+import { isChildPath } from './isChildPath'
 import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
 
 export function exposeFolder({
@@ -77,11 +78,6 @@ export function exposeFolder({
     response.body = createReadStream(pathname)
     return response
   }
-}
-
-function isChildPath(parent, current) {
-  const path = relative(parent, current)
-  return path && !path.startsWith('..') && !isAbsolute(path)
 }
 
 const YEARS = 60 * 60 * 24 * 365

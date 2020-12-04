@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.2](https://github.com/davidbonnet/serware/compare/v0.11.1...v0.11.2) (2020-12-04)
+
+
+### Features
+
+* add index support ([dc3625c](https://github.com/davidbonnet/serware/commit/dc3625ce647f777fbfce2c32349b51939f1b2ff0))
+
 ### [0.11.1](https://github.com/davidbonnet/serware/compare/v0.11.0...v0.11.1) (2020-12-04)
 
 

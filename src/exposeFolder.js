@@ -1,7 +1,7 @@
 import { join, normalize } from 'path'
 import { createReadStream } from 'fs'
 
-import { lookup as getContentType } from 'mime-types'
+import { lookup } from 'mime-types'
 
 import { stat } from './promisified'
 import { getAcceptedEncodingList } from './getAcceptedEncodingList'
@@ -16,6 +16,8 @@ export function exposeFolder({
   cache = false,
   maxAge = 1 * YEARS,
   lastModified = true,
+  compressibleContentTypes = COMPRESSIBLE_CONTENT_TYPES,
+  getContentType = lookup,
 }) {
   return async function (request, next) {
     const pathname = normalize(
@@ -52,7 +54,7 @@ export function exposeFolder({
     const contentType = getContentType(pathname)
     if (contentType) {
       response.setHeader('Content-Type', contentType)
-      if (contentType in COMPRESSIBLE_CONTENT_TYPES) {
+      if (contentType in compressibleContentTypes) {
         // Look for compressed version
         const acceptedEncodingList = getAcceptedEncodingList(
           request.headers['accept-encoding'],

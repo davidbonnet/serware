@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.5](https://github.com/davidbonnet/serware/compare/v0.11.4...v0.11.5) (2020-12-21)
+
+
+### Features
+
+* add exposeFolder parameters ([035aa5d](https://github.com/davidbonnet/serware/commit/035aa5dca44332258029795d0c3e0f069dfff0be))
+
 ### [0.11.4](https://github.com/davidbonnet/serware/compare/v0.11.3...v0.11.4) (2020-12-04)
 
 

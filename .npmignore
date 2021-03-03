@@ -16,3 +16,4 @@ package-lock.json
 scripts
 demo
 src/**/tests
+playground

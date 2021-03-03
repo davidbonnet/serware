@@ -4,7 +4,7 @@ async function main() {
   let server
   try {
     const module = await import(modulePath)
-    server = module.default()
+    server = await Promise.resolve(module.default())
     respond('success')
   } catch (error) {
     respond('error', error.toString())

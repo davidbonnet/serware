@@ -2,6 +2,7 @@ import { Server as HTTPServer } from 'http'
 import { join } from 'path'
 
 import { Server as WebSocketServer } from 'ws'
+import pino from 'pino'
 
 import {
   cache,
@@ -27,6 +28,24 @@ import {
   writeCookies,
   writeHeaders,
 } from '../main'
+
+const logger = pino({
+  level: 'debug',
+  prettyPrint:
+    process.env.NODE_ENV !== 'production'
+      ? {
+          translateTime: true,
+        }
+      : false,
+})
+
+const {
+  stdSerializers: {
+    req: serializeRequest,
+    res: serializeResponse,
+    err: serializeError,
+  },
+} = pino
 
 async function test(request, next) {
   const response = await next(request)
@@ -151,18 +170,17 @@ const webSocketServer = new WebSocketServer({
 const handle = combine(
   log({
     request(request) {
-      // eslint-disable-next-line no-console
-      console.log('request.headers', request.headers)
+      const log = logger.child(serializeRequest(request))
+      request.log = log
+      return log
     },
-    response(response) {
-      // eslint-disable-next-line no-console
-      console.log('response.headers', response.getHeaders())
+    response(response, log) {
+      log.info({ response: serializeResponse(response) })
     },
   }),
   handleError({
-    callback(error) {
-      // eslint-disable-next-line no-console
-      console.log('error', error)
+    callback(error, request) {
+      request.log.error(serializeError(error))
     },
   }),
   writeCompressibleBody,
@@ -177,7 +195,7 @@ const handle = combine(
     store: sessionStore,
   }),
   routeUrl({
-    '/files': exposeFolder({ path: join(__dirname, 'files') }),
+    '/files': exposeFolder({ path: join(__dirname, 'files'), maxAge: 0 }),
     '/a': routeUrl({
       '/b': exact(routeMethod({ GET: printHtmlMessage('This is a/b') })),
       '/b2': printPath,

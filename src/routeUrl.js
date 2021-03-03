@@ -1,16 +1,12 @@
-import { URL } from 'url'
-
 import { toPairs, orderBy } from 'lodash'
+
+import { setHref } from './setHref'
 
 export function routeUrl(routes) {
   const orderedRoutes = orderBy(toPairs(routes), ['0.length'], ['desc'])
   return async function (request, next) {
     if (!request.href) {
-      const href = new URL(
-        `http://${request.headers['host'] || 'localhost'}${request.url}`,
-      )
-      request.href = href
-      request.pathname = href.pathname
+      setHref(request)
     }
     const { pathname } = request
     const { length } = orderedRoutes

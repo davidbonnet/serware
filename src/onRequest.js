@@ -1,7 +1,7 @@
-import { respond } from './respond'
+import { respond } from './tools/respond'
 
-export function onRequest(next) {
-  return async function handler(request, response) {
+export function onRequest(handle) {
+  return async function listener(request, response) {
     request.respond = function (options) {
       if (options == null) {
         return response
@@ -12,7 +12,7 @@ export function onRequest(next) {
       }
       return respond(response, options)
     }
-    const answer = await next(request, request.respond)
+    const answer = await handle(request, request.respond)
     if (!answer.writableEnded) {
       answer.end()
     }

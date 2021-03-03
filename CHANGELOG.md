@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/davidbonnet/serware/compare/v0.11.5...v0.12.0) (2021-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Respond is now just a handler that returns the default
+response object.
+
+### Features
+
+* **exposeFolder:** support if-modified-since ([14d24f5](https://github.com/davidbonnet/serware/commit/14d24f539752b960c1e9efe0f7a6fb38ceb70a4a))
+* **onUse:** add connect adapter ([14438ad](https://github.com/davidbonnet/serware/commit/14438adaf03d5ce4cc9b51700e40c70df0577139))
+* **reload:** support async default function ([a683cdb](https://github.com/davidbonnet/serware/commit/a683cdb6f157c9d8277228d3bc8fb3117b2cbd3b))
+* **setHref:** add new tool ([06283c7](https://github.com/davidbonnet/serware/commit/06283c72d7f2fc5b78e73518d05108493a07087f))
+* **use:** new handler for connect-like listeners ([f335b1e](https://github.com/davidbonnet/serware/commit/f335b1e54cb2b028d6fcc1f1a7824d31216eae81))
+
+
+* move respond to tools ([2cc7cd8](https://github.com/davidbonnet/serware/commit/2cc7cd8e065d2777f0d7e29268d3915952b0f07e))
+
 ### [0.11.5](https://github.com/davidbonnet/serware/compare/v0.11.4...v0.11.5) (2020-12-21)
 
 

@@ -7,8 +7,9 @@ import { stat } from './promisified'
 import { getAcceptedEncodingList } from './getAcceptedEncodingList'
 import { isChildPath } from './isChildPath'
 import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
+import { STATUS_CODES } from './STATUS_CODES'
 
-const { decodeURI } = global
+const { decodeURI, Date } = global
 
 export function exposeFolder({
   path: folderPath,
@@ -45,10 +46,22 @@ export function exposeFolder({
       return next(request)
     }
     const response = request.respond()
-    if (maxAge) {
-      response.setHeader('Cache-Control', `public, max-age=${maxAge}`)
+    if (maxAge != null) {
+      response.setHeader(
+        'Cache-Control',
+        `public, max-age=${maxAge}, must-revalidate`,
+      )
     }
     if (lastModified && stats.mtime) {
+      const lastRequestDate = request.headers['if-modified-since']
+      if (
+        lastRequestDate &&
+        // The precision of `stats` is down to a millisecond while `lastRequestDate` is down to a second
+        Date.parse(lastRequestDate) - stats.mtime.valueOf() > -1000
+      ) {
+        response.statusCode = STATUS_CODES.NOT_MODIFIED
+        return response
+      }
       response.setHeader('Last-Modified', stats.mtime.toUTCString())
     }
     const contentType = getContentType(pathname)

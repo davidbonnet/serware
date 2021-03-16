@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.1](https://github.com/davidbonnet/serware/compare/v0.12.0...v0.12.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* **exposeFolder:** add missing content-encoding ([0dfdb9e](https://github.com/davidbonnet/serware/commit/0dfdb9ef930bfe23f218d64bd10422bb75c988c9))
+
 ## [0.12.0](https://github.com/davidbonnet/serware/compare/v0.11.5...v0.12.0) (2021-03-03)
 
 

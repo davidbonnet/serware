@@ -81,14 +81,13 @@ export function exposeFolder({
             if (stats.isFile()) {
               response.body = createReadStream(compressedPathname)
               response.setHeader('Content-Length', stats.size)
+              response.setHeader('Content-Encoding', acceptedEncoding)
               return response
             }
           } catch (error) {
             // Ignore
           }
         }
-        // Enable compression for other handlers
-        response.compress = true
       }
     }
     if (!response.compress) {

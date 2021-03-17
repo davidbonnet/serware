@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.13.0](https://github.com/davidbonnet/serware/compare/v0.12.1...v0.13.0) (2021-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **reload:** To avoid an unnecessary dependency on a development
+dependency, the watcher must now be passed onto `reload`.
+This also gives more flexibility on what and how to watch files.
+
+### Bug Fixes
+
+* **header:** write content-encoding when unset ([f1a4099](https://github.com/davidbonnet/serware/commit/f1a40995c9e75af6ee626ab28aec2c7c263cc6b4))
+* **reload:** externalize watcher ([dceb7bf](https://github.com/davidbonnet/serware/commit/dceb7bf80efede5aea37cf9859fd7c875685d8ad))
+
 ### [0.12.1](https://github.com/davidbonnet/serware/compare/v0.12.0...v0.12.1) (2021-03-16)
 
 

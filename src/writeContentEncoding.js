@@ -8,8 +8,12 @@ export async function writeContentEncoding(request, next) {
   if (response.headersSent) {
     return response
   }
-  if (acceptedEncoding && response.compress) {
-    response.setHeader('content-encoding', acceptedEncoding)
+  if (
+    acceptedEncoding &&
+    !response.hasHeader('Content-Encoding') &&
+    response.compress
+  ) {
+    response.setHeader('Content-Encoding', acceptedEncoding)
     return response
   }
   if (response.compress) {

@@ -2,19 +2,14 @@ import { Worker } from 'worker_threads'
 import { join } from 'path'
 
 import { debounce } from 'lodash'
-import chokidar from 'chokidar'
 
 const WORKER_MODULE = join(__dirname, 'reloadWorker.js')
 
-export function reload(modulePath, observedPaths) {
-  const watcher = chokidar.watch(observedPaths, {
-    ignored: /(^|[/\\])\../,
-    persistent: true,
-  })
+export function reload(modulePath, watcher) {
   let worker = null
   async function reloadServer(modulePath) {
     if (worker) {
-      await request(worker, 'close')
+      const result = await request(worker, 'close')
       await worker.terminate()
     }
     worker = new Worker(WORKER_MODULE, {

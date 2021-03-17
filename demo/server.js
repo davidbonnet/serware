@@ -293,11 +293,11 @@ export default function main() {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
   })
   server.on('close', () => {
+    logger.info('Stopping server…')
     webSocketServer.close()
   })
   server.keepAliveTimeout = 5000
   server.listen(9000)
-  // eslint-disable-next-line no-console
-  console.log('Listening on http://localhost:9000')
+  logger.info('Listening on http://localhost:9000')
   return server
 }

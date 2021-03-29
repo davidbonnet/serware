@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.14.0](https://github.com/davidbonnet/serware/compare/v0.13.1...v0.14.0) (2021-03-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **reload:** Add parameter object to `reload`.
+
+### Bug Fixes
+
+* **reload:** prevent crash on reload ([8e22c86](https://github.com/davidbonnet/serware/commit/8e22c86a7d01ec1dc300f592e015faacc8e54ebe))
+
 ### [0.13.1](https://github.com/davidbonnet/serware/compare/v0.13.0...v0.13.1) (2021-03-18)
 
 

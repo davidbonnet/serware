@@ -5,20 +5,24 @@ import { debounce } from 'lodash'
 
 const WORKER_MODULE = join(__dirname, 'reloadWorker.js')
 
-export function reload(modulePath, watcher) {
+export function reload({ modulePath, watcher, onReload, delay = 1000 }) {
   let worker = null
   async function reloadServer(modulePath) {
     if (worker) {
-      const result = await request(worker, 'close')
-      await worker.terminate()
+      await request(worker, 'close')
+      await terminate(worker)
     }
     worker = new Worker(WORKER_MODULE, {
       workerData: modulePath,
     })
+    worker.on('error', (error) => {
+      console.error(error)
+      worker = null
+    })
     const response = await request(worker)
     if (response.type === 'error') {
       console.error(response.value)
-      await worker.terminate()
+      await terminate(worker)
       worker = null
     }
   }
@@ -27,10 +31,11 @@ export function reload(modulePath, watcher) {
     watcher.on(
       'change',
       debounce(async (path) => {
-        // eslint-disable-next-line no-console
-        console.log(`Reloading after update on "${path}"…`)
+        if (onReload) {
+          onReload(path)
+        }
         reloadServer(`${modulePath}`)
-      }, 1000),
+      }, delay),
     )
   })
 }
@@ -43,4 +48,12 @@ async function request(worker, command) {
     worker.postMessage(command)
   }
   return JSON.parse(await response)
+}
+
+async function terminate(worker) {
+  try {
+    return await worker.terminate()
+  } catch (error) {
+    // Ignore
+  }
 }

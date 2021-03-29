@@ -1,20 +1,24 @@
 import { parentPort, workerData as modulePath } from 'worker_threads'
 
 async function main() {
-  let server
+  const module = await import(modulePath)
+  let close
   try {
-    const module = await import(modulePath)
-    server = await Promise.resolve(module.default())
-    respond('success')
+    close = await Promise.resolve(module.default())
   } catch (error) {
     respond('error', error.toString())
     return
   }
-  parentPort.on('message', (command) => {
+  respond('success')
+  parentPort.on('message', async (command) => {
     switch (command) {
-      case 'close':
-        server.close(() => respond('success'))
+      case 'close': {
+        if (close) {
+          await close()
+        }
+        respond('success')
         break
+      }
       default:
       // Ignore
     }

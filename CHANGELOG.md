@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.15.0](https://github.com/davidbonnet/serware/compare/v0.14.0...v0.15.0) (2021-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **exposeFolder:** Content is not cached by default anymore.
+
+### Features
+
+* **exposeFolder:** add isImmutable option ([ab6d562](https://github.com/davidbonnet/serware/commit/ab6d5620f7f6e4e5f32a543843288852115fdf82))
+
 ## [0.14.0](https://github.com/davidbonnet/serware/compare/v0.13.1...v0.14.0) (2021-03-29)
 
 

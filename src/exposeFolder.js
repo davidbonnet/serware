@@ -1,6 +1,7 @@
 import { join, normalize } from 'path'
 import { createReadStream } from 'fs'
 
+import { stubFalse } from 'lodash'
 import { lookup } from 'mime-types'
 
 import { stat } from './promisified'
@@ -15,6 +16,7 @@ export function exposeFolder({
   path: folderPath,
   index,
   cache = false,
+  isImmutable = stubFalse,
   maxAge = 1 * YEARS,
   lastModified = true,
   compressibleContentTypes = COMPRESSIBLE_CONTENT_TYPES,
@@ -46,13 +48,14 @@ export function exposeFolder({
       return next(request)
     }
     const response = request.respond()
-    if (maxAge != null) {
+    if (isImmutable(pathname)) {
       response.setHeader(
         'Cache-Control',
-        `public, max-age=${maxAge}, must-revalidate`,
+        `public, immutable, max-age=${maxAge}, must-revalidate`,
       )
-    }
-    if (lastModified && stats.mtime) {
+    } else if (lastModified && stats.mtime) {
+      // Note that `no-cache` means that the client must revalidate with the server before using the cached resource
+      response.setHeader('Cache-Control', 'public, no-cache')
       const lastRequestDate = request.headers['if-modified-since']
       if (
         lastRequestDate &&
@@ -63,6 +66,8 @@ export function exposeFolder({
         return response
       }
       response.setHeader('Last-Modified', stats.mtime.toUTCString())
+    } else {
+      response.setHeader('Cache-Control', 'no-store')
     }
     const contentType = getContentType(pathname)
     if (contentType) {

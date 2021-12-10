@@ -1,7 +1,7 @@
-import { randomBytes } from './promisified'
-import { getCookies } from './getCookies'
-import { setCookie } from './setCookie'
-import { getNow } from './getNow'
+import { randomBytes } from './tools/randomBytes.js'
+import { getCookies } from './getCookies.js'
+import { setCookie } from './setCookie.js'
+import { getNow } from './getNow.js'
 
 export function session({
   store,

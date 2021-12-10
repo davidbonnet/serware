@@ -1,13 +1,13 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeBody } from '../writeBody'
-import { writeHeaders } from '../writeHeaders'
-import { writeContentLength } from '../writeContentLength'
-import { routeUrl } from '../routeUrl'
-import { exact } from '../exact'
-import { STATUS_CODES } from '../STATUS_CODES'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeBody } from '../writeBody.js'
+import { writeHeaders } from '../writeHeaders.js'
+import { writeContentLength } from '../writeContentLength.js'
+import { routeUrl } from '../routeUrl.js'
+import { exact } from '../exact.js'
+import { STATUS_CODES } from '../STATUS_CODES.js'
 
 test('routes url', async (assert) => {
   const handlerA = async (request) => {

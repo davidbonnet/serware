@@ -1,4 +1,4 @@
-import { omit } from 'lodash'
+import { omit } from 'lodash-es'
 
 export function setSessionValue(request, name, value) {
   if (!request.session) {

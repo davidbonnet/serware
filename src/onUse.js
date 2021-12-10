@@ -1,4 +1,4 @@
-import { respond } from './tools/respond'
+import { respond } from './tools/respond.js'
 
 export function onUse(handle) {
   /*

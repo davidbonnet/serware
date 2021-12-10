@@ -1,12 +1,12 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeBody } from '../writeBody'
-import { writeHeaders } from '../writeHeaders'
-import { writeContentLength } from '../writeContentLength'
-import { routeMethod } from '../routeMethod'
-import { STATUS_CODES } from '../STATUS_CODES'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeBody } from '../writeBody.js'
+import { writeHeaders } from '../writeHeaders.js'
+import { writeContentLength } from '../writeContentLength.js'
+import { routeMethod } from '../routeMethod.js'
+import { STATUS_CODES } from '../STATUS_CODES.js'
 
 test('routes url', async (assert) => {
   const handler = combine(

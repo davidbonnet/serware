@@ -1,8 +1,8 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeBody } from '../writeBody'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeBody } from '../writeBody.js'
 
 test('writes body', async (assert) => {
   const handler = combine(writeBody, async (request, next) => {

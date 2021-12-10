@@ -1,12 +1,12 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeHeaders } from '../writeHeaders'
-import { writeCompressibleBody } from '../writeCompressibleBody'
-import { writeContentEncoding } from '../writeContentEncoding'
-import { writeContentLength } from '../writeContentLength'
-import { writeCookies } from '../writeCookies'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeHeaders } from '../writeHeaders.js'
+import { writeCompressibleBody } from '../writeCompressibleBody.js'
+import { writeContentEncoding } from '../writeContentEncoding.js'
+import { writeContentLength } from '../writeContentLength.js'
+import { writeCookies } from '../writeCookies.js'
 
 test.skip('writes body in gzip', async (assert) => {
   const handler = combine(

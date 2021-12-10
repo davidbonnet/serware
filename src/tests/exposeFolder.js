@@ -1,20 +1,23 @@
-import { join } from 'path'
+import { join, dirname } from 'path'
 
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { exposeFolder } from '../exposeFolder'
-import { writeBody } from '../writeBody'
-import { writeHeaders } from '../writeHeaders'
-import { STATUS_CODES } from '../STATUS_CODES'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { exposeFolder } from '../exposeFolder.js'
+import { writeBody } from '../writeBody.js'
+import { writeHeaders } from '../writeHeaders.js'
+import { STATUS_CODES } from '../STATUS_CODES.js'
 
 test('exposes folder', async (assert) => {
   const handler = combine(
     writeBody,
     writeHeaders,
     exposeFolder({
-      path: join(__dirname, './fixtures/files'),
+      path: join(
+        dirname(new URL(import.meta.url).pathname),
+        './fixtures/files',
+      ),
       cache: false,
       lastModified: false,
     }),

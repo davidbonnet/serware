@@ -1,7 +1,7 @@
 import { Server as HTTPServer } from 'http'
-import { join } from 'path'
+import { join, dirname } from 'path'
 
-import { Server as WebSocketServer } from 'ws'
+import { WebSocketServer } from 'ws'
 import pino from 'pino'
 
 import {
@@ -27,7 +27,7 @@ import {
   writeContentLength,
   writeCookies,
   writeHeaders,
-} from '../main'
+} from '../main.js'
 
 const logger = pino({
   level: 'debug',
@@ -195,7 +195,10 @@ const handle = combine(
     store: sessionStore,
   }),
   routeUrl({
-    '/files': exposeFolder({ path: join(__dirname, 'files'), maxAge: 0 }),
+    '/files': exposeFolder({
+      path: join(dirname(new URL(import.meta.url).pathname), 'files'),
+      maxAge: 0,
+    }),
     '/a': routeUrl({
       '/b': exact(routeMethod({ GET: printHtmlMessage('This is a/b') })),
       '/b2': printPath,

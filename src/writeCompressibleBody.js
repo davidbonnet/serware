@@ -1,8 +1,8 @@
 import { createGzip, createBrotliCompress } from 'zlib'
 
-import { toReadableStream } from './toReadableStream'
-import { pipeline } from './promisified'
-import { GZIP, BR } from './getAcceptedEncoding'
+import { pipe } from './tools/pipe.js'
+import { toReadableStream } from './toReadableStream.js'
+import { GZIP, BR } from './getAcceptedEncoding.js'
 
 export async function writeCompressibleBody(request, next) {
   const response = await next(request)
@@ -20,18 +20,16 @@ export async function writeCompressibleBody(request, next) {
   switch (compress && response.getHeader('content-encoding')) {
     case GZIP:
       await (tube
-        ? pipeline(source, createGzip(), tube, response)
-        : pipeline(source, createGzip(), response))
+        ? pipe(source, createGzip(), tube, response)
+        : pipe(source, createGzip(), response))
       break
     case BR:
       await (tube
-        ? pipeline(source, createBrotliCompress(), tube, response)
-        : pipeline(source, createBrotliCompress(), response))
+        ? pipe(source, createBrotliCompress(), tube, response)
+        : pipe(source, createBrotliCompress(), response))
       break
     default:
-      await (tube
-        ? pipeline(source, tube, response)
-        : pipeline(source, response))
+      await (tube ? pipe(source, tube, response) : pipe(source, response))
       break
   }
   return response

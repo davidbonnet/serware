@@ -1,22 +1,23 @@
 {
   "name": "serware",
   "version": "0.15.0",
-  "description": "Basic server middelware for JavaScript engines.",
+  "description": "Basic server middleware for JavaScript engines.",
+  "type": "module",
   "main": "main.js",
-  "module": "main.js",
-  "jsnext:main": "main.js",
-  "es": "main.js",
-  "main-es": "main.js",
+  "exports": {
+    "import": "./main.js"
+  },
   "scripts": {
-    "start": "node --require esm demo/server.js",
+    "start": "node demo/run.js",
     "dev": "concurrently -n \"server,  test\" \"npm:dev:server\" \"npm:dev:test\"",
-    "dev:server": "node --require esm demo/watch.js",
+    "dev:server": "node demo/watch.js",
     "dev:test": "ava --watch --update-snapshots",
-    "test": "npm run eslint && npm run prettier:check && npm run test:unit",
+    "test": "npm run lint && npm run format:check && npm run test:unit",
     "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' --exclude='src/mock*.js' ava",
-    "eslint": "eslint src/",
-    "prettier": "prettier --write \"{src,scripts}/**/*.js\"",
-    "prettier:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "format": "prettier --write \"{src,scripts}/**/*.js\"",
+    "format:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
     "prepush": "npm test",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
@@ -40,115 +41,32 @@
   },
   "dependencies": {
     "cookie": "^0.4.1",
-    "iconv-lite": "^0.6.2",
-    "lodash": "^4.17.19",
-    "mime-types": "^2.1.27"
+    "iconv-lite": "^0.6.3",
+    "lodash-es": "^4.17.21",
+    "mime-types": "^2.1.34"
   },
   "devDependencies": {
-    "ava": "^3.10.1",
-    "c8": "^7.2.1",
-    "chokidar": "^3.4.1",
-    "codecov": "^3.7.2",
-    "concurrently": "^5.2.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.5.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
+    "ava": "^3.15.0",
+    "c8": "^7.10.0",
+    "chokidar": "^3.5.2",
+    "codecov": "^3.8.2",
+    "concurrently": "^6.4.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
     "esm": "^3.2.25",
-    "fast-glob": "3.2.4",
-    "husky": "^4.2.5",
-    "pino": "^6.10.0",
-    "pino-pretty": "^4.3.0",
-    "prettier": "^2.0.5",
-    "standard-version": "^8.0.2",
-    "ws": "^7.3.1"
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "bracketSpacing": true,
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "useTabs": false
-  },
-  "eslintConfig": {
-    "plugins": [
-      "import"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "prettier"
-    ],
-    "env": {
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 11,
-      "sourceType": "module"
-    },
-    "globals": {
-      "__dirname": true,
-      "__filename": true,
-      "console": true,
-      "global": true,
-      "import": true,
-      "module": true,
-      "process": true,
-      "require": true,
-      "window": true
-    },
-    "rules": {
-      "curly": "error",
-      "default-case": "error",
-      "import/no-duplicates": "error",
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "always"
-        }
-      ],
-      "line-comment-position": [
-        "error",
-        {
-          "position": "above"
-        }
-      ],
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ],
-      "no-irregular-whitespace": [
-        "error",
-        {
-          "skipStrings": true,
-          "skipTemplates": true
-        }
-      ],
-      "no-unused-vars": [
-        "error",
-        {
-          "args": "after-used",
-          "ignoreRestSiblings": true
-        }
-      ],
-      "no-var": "error",
-      "prefer-const": "error"
-    }
+    "fast-glob": "3.2.7",
+    "husky": "^7.0.4",
+    "pino": "^7.5.1",
+    "pino-pretty": "^7.2.0",
+    "prettier": "^2.5.1",
+    "standard-version": "^9.3.2",
+    "ws": "^8.3.0"
   },
   "ava": {
     "files": [
       "src/**/tests/*.js"
-    ],
-    "require": [
-      "esm"
     ]
   },
   "esm": "auto"

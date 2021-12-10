@@ -1,10 +1,10 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { handleError } from '../handleError'
-import { MockResponse } from '../MockResponse'
-import { HTTPError } from '../HTTPError'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { handleError } from '../handleError.js'
+import { MockResponse } from '../MockResponse.js'
+import { HTTPError } from '../HTTPError.js'
 
 test('handles error', async (assert) => {
   const handler = combine(

@@ -1,12 +1,12 @@
 import { Buffer } from 'buffer'
 import { ServerResponse as DefaultResponse, STATUS_CODES } from 'http'
 
-import { isString, isBuffer } from 'lodash'
+import { isString, isBuffer } from 'lodash-es'
+
+import { pipe } from './tools/pipe.js'
+import { toReadableStream } from './toReadableStream.js'
 
 const { byteLength } = Buffer
-
-import { pipeline } from './promisified'
-import { toReadableStream } from './toReadableStream'
 
 export function handleError({ callback, Response = DefaultResponse } = {}) {
   return async function (request, next) {
@@ -42,7 +42,7 @@ export function handleError({ callback, Response = DefaultResponse } = {}) {
         const { body, charset } = response
         if (body != null) {
           const source = toReadableStream(body, charset)
-          await pipeline(source, response)
+          await pipe(source, response)
         }
         response.end()
       }

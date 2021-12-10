@@ -1,13 +1,13 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { session } from '../session'
-import { clearSession } from '../clearSession'
-import { getSessionValue } from '../getSessionValue'
-import { setSessionValue } from '../setSessionValue'
-import { writeCookies } from '../writeCookies'
-import { sessionStoreMap } from '../sessionStoreMap'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { session } from '../session.js'
+import { clearSession } from '../clearSession.js'
+import { getSessionValue } from '../getSessionValue.js'
+import { setSessionValue } from '../setSessionValue.js'
+import { writeCookies } from '../writeCookies.js'
+import { sessionStoreMap } from '../sessionStoreMap.js'
 
 test('creates session', async (assert) => {
   const store = sessionStoreMap()

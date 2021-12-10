@@ -1,9 +1,10 @@
-import { pipeline } from './promisified'
-import { toReadableStream } from './toReadableStream'
+import { pipe } from './tools/pipe.js'
+import { toReadableStream } from './toReadableStream.js'
 
 export async function writeBody(request, next) {
   const response = await next(request)
   if (response.writableEnded) {
+    // FIXME: Throw error?
     return response
   }
   const { body, charset, tube } = response
@@ -14,6 +15,6 @@ export async function writeBody(request, next) {
     return response
   }
   const source = toReadableStream(body, charset)
-  await (tube ? pipeline(source, tube, response) : pipeline(source, response))
+  await (tube ? pipe(source, tube, response) : pipe(source, response))
   return response
 }

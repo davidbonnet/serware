@@ -1,7 +1,7 @@
-import { parseBody } from './parseBody'
-import { decompress } from './decompress'
-import { parseNumber } from './parseNumber'
-import { HTTPError } from './HTTPError'
+import { parseBody } from './parseBody.js'
+import { decompress } from './decompress.js'
+import { parseNumber } from './parseNumber.js'
+import { HTTPError } from './HTTPError.js'
 
 export async function parseBodyJson(request, limit) {
   const contentLength = parseNumber(request.headers['content-length'])

@@ -1,6 +1,6 @@
-import { toPairs, orderBy } from 'lodash'
+import { toPairs, orderBy } from 'lodash-es'
 
-import { setHref } from './setHref'
+import { setHref } from './setHref.js'
 
 export function routeUrl(routes) {
   const orderedRoutes = orderBy(toPairs(routes), ['0.length'], ['desc'])

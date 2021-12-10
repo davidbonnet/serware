@@ -1,6 +1,6 @@
 import { STATUS_CODES as STATUS_CODE_NAMES } from 'http'
 
-import { fromPairs, map, snakeCase, toUpper } from 'lodash'
+import { fromPairs, map, snakeCase, toUpper } from 'lodash-es'
 
 const { parseInt } = global
 

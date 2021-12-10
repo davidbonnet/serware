@@ -23,7 +23,7 @@ export class MockSocket extends Duplex {
 
   address() {
     return {
-      port: 12346,
+      port: 80,
       family: 'IPv4',
       address: '127.0.0.1',
     }

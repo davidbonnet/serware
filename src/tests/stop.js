@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { stop } from '../stop'
+import { stop } from '../stop.js'
 
 test('stop', async (assert) => {
   const response = {}

@@ -1,10 +1,10 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeCookies } from '../writeCookies'
-import { setCookie } from '../setCookie'
-import { getNow } from '../getNow'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeCookies } from '../writeCookies.js'
+import { setCookie } from '../setCookie.js'
+import { getNow } from '../getNow.js'
 
 test('writes cookies', async (assert) => {
   const handler = combine(writeCookies, async (request, next) => {

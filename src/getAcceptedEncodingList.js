@@ -1,6 +1,6 @@
-import { reduce, split } from 'lodash'
+import { reduce, split } from 'lodash-es'
 
-import { getAcceptedEncoding } from './getAcceptedEncoding'
+import { getAcceptedEncoding } from './getAcceptedEncoding.js'
 
 export function getAcceptedEncodingList(acceptEncoding) {
   return reduce(

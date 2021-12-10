@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { isChildPath } from '../isChildPath'
+import { isChildPath } from '../isChildPath.js'
 
 test('validates child path', async (assert) => {
   assert.true(isChildPath('/a', '/a'))

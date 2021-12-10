@@ -1,6 +1,6 @@
 import { kServerResponse } from '_http_server'
 
-import { respond } from './tools/respond'
+import { respond } from './tools/respond.js'
 
 export function onUpgrade(next) {
   return async function handler(request, socket, head) {

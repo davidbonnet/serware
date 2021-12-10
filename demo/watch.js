@@ -1,10 +1,11 @@
-import { join } from 'path'
+import { join, dirname } from 'path'
+
 import chokidar from 'chokidar'
 
-import { reload } from '../src/reload'
+import { reload } from '../src/reload.js'
 
 function absolute(path) {
-  return join(__dirname, path)
+  return join(dirname(new URL(import.meta.url).pathname), path)
 }
 
 reload(

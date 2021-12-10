@@ -1,14 +1,14 @@
 import { join, normalize } from 'path'
 import { createReadStream } from 'fs'
+import { stat } from 'fs/promises'
 
-import { stubFalse } from 'lodash'
+import { stubFalse } from 'lodash-es'
 import { lookup } from 'mime-types'
 
-import { stat } from './promisified'
-import { getAcceptedEncodingList } from './getAcceptedEncodingList'
-import { isChildPath } from './isChildPath'
-import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES'
-import { STATUS_CODES } from './STATUS_CODES'
+import { getAcceptedEncodingList } from './getAcceptedEncodingList.js'
+import { isChildPath } from './isChildPath.js'
+import { COMPRESSIBLE_CONTENT_TYPES } from './COMPRESSIBLE_CONTENT_TYPES.js'
+import { STATUS_CODES } from './STATUS_CODES.js'
 
 const { decodeURI, Date } = global
 

@@ -2,9 +2,10 @@
 
 import { Buffer } from 'buffer'
 
-import { getDecoder as baseGetDecoder } from 'iconv-lite'
+import iconvLite from 'iconv-lite'
+const { getDecoder: baseGetDecoder } = iconvLite
 
-import { HTTPError } from './HTTPError'
+import { HTTPError } from './HTTPError.js'
 
 export function parseBody(
   request,

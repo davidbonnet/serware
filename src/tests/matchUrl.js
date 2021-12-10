@@ -1,13 +1,13 @@
 import test from 'ava'
 
-import { combine } from '../combine'
-import { ask } from '../ask'
-import { writeBody } from '../writeBody'
-import { writeHeaders } from '../writeHeaders'
-import { writeContentLength } from '../writeContentLength'
-import { matchUrl } from '../matchUrl'
-import { exact } from '../exact'
-import { STATUS_CODES } from '../STATUS_CODES'
+import { combine } from '../combine.js'
+import { ask } from '../ask.js'
+import { writeBody } from '../writeBody.js'
+import { writeHeaders } from '../writeHeaders.js'
+import { writeContentLength } from '../writeContentLength.js'
+import { matchUrl } from '../matchUrl.js'
+import { exact } from '../exact.js'
+import { STATUS_CODES } from '../STATUS_CODES.js'
 
 test('matches url patterns', async (assert) => {
   const handler = combine(

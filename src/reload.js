@@ -1,9 +1,12 @@
 import { Worker } from 'worker_threads'
-import { join } from 'path'
+import { join, dirname } from 'path'
 
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 
-const WORKER_MODULE = join(__dirname, 'reloadWorker.js')
+const WORKER_MODULE = join(
+  dirname(new URL(import.meta.url).pathname),
+  'reloadWorker.js',
+)
 
 export function reload({ modulePath, watcher, onReload, delay = 1000 }) {
   let worker = null

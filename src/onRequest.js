@@ -13,7 +13,10 @@ export function onRequest(handle) {
       return respond(response, options)
     }
     const answer = await handle(request, request.respond)
-    if (!answer.writableEnded) {
+    if (
+      !answer.writableEnded &&
+      answer.getHeader('Connection') !== 'keep-alive'
+    ) {
       answer.end()
     }
     return answer

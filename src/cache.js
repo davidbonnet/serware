@@ -4,7 +4,7 @@ import { Buffer } from 'buffer'
 
 const { isPromise } = types
 
-export function cache({ store }) {
+export function cache({ store, shouldCache = defaultShouldCache }) {
   return async function cache(request, next) {
     if (await store.has(request)) {
       const cache = await store.get(request)
@@ -15,7 +15,7 @@ export function cache({ store }) {
       return await request.respond(cache)
     }
     const response = await next(request)
-    if (response.cache) {
+    if (shouldCache(response)) {
       const tube = new PassThrough()
       response.tube = tube
       await store.set(request, {
@@ -27,6 +27,10 @@ export function cache({ store }) {
     }
     return response
   }
+}
+
+function defaultShouldCache(request) {
+  return request.cache
 }
 
 function buffer(tube) {

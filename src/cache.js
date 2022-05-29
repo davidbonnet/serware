@@ -15,7 +15,7 @@ export function cache({ store, shouldCache = defaultShouldCache }) {
       return await request.respond(cache);
     }
     const response = await next(request);
-    if (shouldCache(response)) {
+    if (shouldCache(request, response)) {
       const tube = new PassThrough();
       response.tube = tube;
       await store.set(request, {
@@ -29,7 +29,8 @@ export function cache({ store, shouldCache = defaultShouldCache }) {
   };
 }
 
-function defaultShouldCache(request) {
+// eslint-disable-next-line no-unused-vars
+function defaultShouldCache(request, response) {
   return request.cache;
 }
 

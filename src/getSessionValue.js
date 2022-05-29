@@ -1,7 +1,7 @@
 export function getSessionValue(request, name, defaultValue) {
   if (!request.session) {
-    return defaultValue
+    return defaultValue;
   }
-  const value = request.session[name]
-  return value === undefined ? defaultValue : value
+  const value = request.session[name];
+  return value === undefined ? defaultValue : value;
 }

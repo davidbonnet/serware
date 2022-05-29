@@ -1,3 +1,3 @@
 export function respond(request) {
-  return request.respond()
+  return request.respond();
 }

@@ -1,7 +1,7 @@
 export function parseNumber(value) {
-  const result = parseInt(value, 10)
+  const result = parseInt(value, 10);
   if (isNaN(result)) {
-    return null
+    return null;
   }
-  return result
+  return result;
 }

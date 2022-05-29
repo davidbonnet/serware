@@ -1,23 +1,23 @@
-import { getAcceptedEncoding } from './getAcceptedEncoding.js'
+import { getAcceptedEncoding } from "./getAcceptedEncoding.js";
 
 export async function writeContentEncoding(request, next) {
   const acceptedEncoding = getAcceptedEncoding(
-    request.headers['accept-encoding'],
-  )
-  const response = await next(request)
+    request.headers["accept-encoding"],
+  );
+  const response = await next(request);
   if (response.headersSent) {
-    return response
+    return response;
   }
   if (
     acceptedEncoding &&
-    !response.hasHeader('Content-Encoding') &&
+    !response.hasHeader("Content-Encoding") &&
     response.compress
   ) {
-    response.setHeader('Content-Encoding', acceptedEncoding)
-    return response
+    response.setHeader("Content-Encoding", acceptedEncoding);
+    return response;
   }
   if (response.compress) {
-    response.compress = false
+    response.compress = false;
   }
-  return response
+  return response;
 }

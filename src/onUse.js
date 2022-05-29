@@ -1,4 +1,4 @@
-import { respond } from './tools/respond.js'
+import { respond } from "./tools/respond.js";
 
 export function onUse(handle) {
   /*
@@ -8,21 +8,21 @@ export function onUse(handle) {
   return async function (request, response, next) {
     request.respond = function (options) {
       if (options == null) {
-        return response
+        return response;
       }
       if (options.respond != null) {
         // If request object is provided, return its response object
-        return options.respond()
+        return options.respond();
       }
-      return respond(response, options)
-    }
+      return respond(response, options);
+    };
     await handle(request, (request) => {
       if (request != null) {
         throw new Error(
           'Calls to "next" should be performed without any argument.',
-        )
+        );
       }
-      next()
-    })
-  }
+      next();
+    });
+  };
 }

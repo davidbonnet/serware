@@ -1,8 +1,8 @@
 export const getNow =
-  process.env.NODE_ENV === 'test'
+  process.env.NODE_ENV === "test"
     ? function () {
-        return 451447200000
+        return 451447200000;
       }
     : function () {
-        return Date.now()
-      }
+        return Date.now();
+      };

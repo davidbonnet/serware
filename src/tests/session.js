@@ -1,144 +1,144 @@
-import test from 'ava'
+import test from "ava";
 
-import { combine } from '../combine.js'
-import { ask } from '../ask.js'
-import { session } from '../session.js'
-import { clearSession } from '../clearSession.js'
-import { getSessionValue } from '../getSessionValue.js'
-import { setSessionValue } from '../setSessionValue.js'
-import { writeCookies } from '../writeCookies.js'
-import { sessionStoreMap } from '../sessionStoreMap.js'
+import { combine } from "../combine.js";
+import { ask } from "../ask.js";
+import { session } from "../session.js";
+import { clearSession } from "../clearSession.js";
+import { getSessionValue } from "../getSessionValue.js";
+import { setSessionValue } from "../setSessionValue.js";
+import { writeCookies } from "../writeCookies.js";
+import { sessionStoreMap } from "../sessionStoreMap.js";
 
-test('creates session', async (assert) => {
-  const store = sessionStoreMap()
+test("creates session", async (assert) => {
+  const store = sessionStoreMap();
   const handler = combine(
     writeCookies,
     session({
       store,
       generateKey() {
-        return Promise.resolve('newKey')
+        return Promise.resolve("newKey");
       },
     }),
     async (request, next) => {
-      assert.is(request.session, null, 'no session')
-      request.session = { data: 42 }
-      const response = await next(request)
-      return response
+      assert.is(request.session, null, "no session");
+      request.session = { data: 42 };
+      const response = await next(request);
+      return response;
     },
-  )
-  const response = await ask(handler)
-  assert.snapshot(await response.toString(), 'matches')
-  assert.is((await store.get('newKey')).data, 42, 'stored session value')
-})
+  );
+  const response = await ask(handler);
+  assert.snapshot(await response.toString(), "matches");
+  assert.is((await store.get("newKey")).data, 42, "stored session value");
+});
 
-test('uses existing session', async (assert) => {
-  const store = sessionStoreMap()
-  await store.set('currentKey', {
-    name: 'value',
-  })
+test("uses existing session", async (assert) => {
+  const store = sessionStoreMap();
+  await store.set("currentKey", {
+    name: "value",
+  });
   const handler = combine(
     session({
       store,
     }),
     async (request, next) => {
       assert.is(
-        getSessionValue(request, 'name'),
-        'value',
-        'found session value',
-      )
+        getSessionValue(request, "name"),
+        "value",
+        "found session value",
+      );
       assert.is(
-        getSessionValue(request, 'unknown', 42),
+        getSessionValue(request, "unknown", 42),
         42,
-        'get default session value',
-      )
-      const response = await next(request)
-      return response
+        "get default session value",
+      );
+      const response = await next(request);
+      return response;
     },
-  )
+  );
   const response = await ask(handler, {
     cookies: {
-      session: 'currentKey',
+      session: "currentKey",
     },
-  })
-  assert.snapshot(await response.toString(), 'matches')
-})
+  });
+  assert.snapshot(await response.toString(), "matches");
+});
 
-test('updates session value only when necessary', async (assert) => {
-  const store = sessionStoreMap()
-  await store.set('currentKey', {
-    name: 'value',
-  })
+test("updates session value only when necessary", async (assert) => {
+  const store = sessionStoreMap();
+  await store.set("currentKey", {
+    name: "value",
+  });
   store.set = () => {
-    throw new Error('Set session value')
-  }
+    throw new Error("Set session value");
+  };
   const handler = combine(
     session({
       store,
     }),
     async (request, next) => {
       assert.is(
-        setSessionValue(request, 'name', 'value'),
-        'value',
-        'returns current value',
-      )
-      const response = await next(request)
-      return response
+        setSessionValue(request, "name", "value"),
+        "value",
+        "returns current value",
+      );
+      const response = await next(request);
+      return response;
     },
-  )
+  );
   await ask(handler, {
     cookies: {
-      session: 'currentKey',
+      session: "currentKey",
     },
-  })
-})
+  });
+});
 
-test('refreshes session key', async (assert) => {
-  const store = sessionStoreMap()
-  await store.set('currentKey', {
-    name: 'value',
-  })
+test("refreshes session key", async (assert) => {
+  const store = sessionStoreMap();
+  await store.set("currentKey", {
+    name: "value",
+  });
   const handler = combine(
     writeCookies,
     session({
       store,
       generateKey() {
-        return Promise.resolve('newKey')
+        return Promise.resolve("newKey");
       },
     }),
     async (request, next) => {
-      const response = await next(request)
-      response.refreshSession = true
-      return response
+      const response = await next(request);
+      response.refreshSession = true;
+      return response;
     },
-  )
+  );
   const response = await ask(handler, {
     cookies: {
-      session: 'currentKey',
+      session: "currentKey",
     },
-  })
-  assert.snapshot(await response.toString(), 'matches')
-})
+  });
+  assert.snapshot(await response.toString(), "matches");
+});
 
-test('deletes existing session', async (assert) => {
-  const store = sessionStoreMap()
-  await store.set('currentKey', {
-    name: 'value',
-  })
+test("deletes existing session", async (assert) => {
+  const store = sessionStoreMap();
+  await store.set("currentKey", {
+    name: "value",
+  });
   const handler = combine(
     writeCookies,
     session({
       store,
     }),
     async (request, next) => {
-      clearSession(request)
-      const response = await next(request)
-      return response
+      clearSession(request);
+      const response = await next(request);
+      return response;
     },
-  )
+  );
   const response = await ask(handler, {
     cookies: {
-      session: 'currentKey',
+      session: "currentKey",
     },
-  })
-  assert.snapshot(await response.toString(), 'matches')
-})
+  });
+  assert.snapshot(await response.toString(), "matches");
+});

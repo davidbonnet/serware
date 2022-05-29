@@ -1,9 +1,9 @@
 export function routeMethod(routes) {
   return async function (request, next) {
-    const { method } = request
+    const { method } = request;
     if (!(method in routes)) {
-      return await next(request)
+      return await next(request);
     }
-    return await routes[method](request, next)
-  }
+    return await routes[method](request, next);
+  };
 }

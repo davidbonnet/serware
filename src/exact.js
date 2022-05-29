@@ -1,5 +1,5 @@
-import { branch } from './branch.js'
+import { branch } from "./branch.js";
 
 export function exact(handler) {
-  return branch((request) => !request.pathname, handler)
+  return branch((request) => !request.pathname, handler);
 }

@@ -1,82 +1,82 @@
-import test from 'ava'
+import test from "ava";
 
-import { combine } from '../combine.js'
-import { ask } from '../ask.js'
-import { writeBody } from '../writeBody.js'
-import { writeHeaders } from '../writeHeaders.js'
-import { writeContentLength } from '../writeContentLength.js'
-import { routeUrl } from '../routeUrl.js'
-import { exact } from '../exact.js'
-import { STATUS_CODES } from '../STATUS_CODES.js'
+import { combine } from "../combine.js";
+import { ask } from "../ask.js";
+import { writeBody } from "../writeBody.js";
+import { writeHeaders } from "../writeHeaders.js";
+import { writeContentLength } from "../writeContentLength.js";
+import { routeUrl } from "../routeUrl.js";
+import { exact } from "../exact.js";
+import { STATUS_CODES } from "../STATUS_CODES.js";
 
-test('routes url', async (assert) => {
+test("routes url", async (assert) => {
   const handlerA = async (request) => {
-    const response = await request.respond()
-    response.body = 'This is A'
-    return response
-  }
+    const response = await request.respond();
+    response.body = "This is A";
+    return response;
+  };
   const handler = combine(
     writeBody,
     writeHeaders,
     writeContentLength,
     routeUrl({
-      '/a': handlerA,
-      '/b': exact(async (request) => {
-        const response = await request.respond()
-        response.body = 'This is B'
-        return response
+      "/a": handlerA,
+      "/b": exact(async (request) => {
+        const response = await request.respond();
+        response.body = "This is B";
+        return response;
       }),
-      '/ab': async (request) => {
-        const response = await request.respond()
-        response.body = 'This is AB'
-        return response
+      "/ab": async (request) => {
+        const response = await request.respond();
+        response.body = "This is AB";
+        return response;
       },
-      '/c': routeUrl({
-        '': async (request) => {
-          const response = await request.respond()
-          response.body = 'This is C'
-          return response
+      "/c": routeUrl({
+        "": async (request) => {
+          const response = await request.respond();
+          response.body = "This is C";
+          return response;
         },
-        '/d': async (request) => {
-          const response = await request.respond()
-          response.body = 'This is C/D'
-          return response
+        "/d": async (request) => {
+          const response = await request.respond();
+          response.body = "This is C/D";
+          return response;
         },
-        '/a': handlerA,
+        "/a": handlerA,
       }),
     }),
     (request) => request.respond({ statusCode: STATUS_CODES.NOT_FOUND }),
-  )
+  );
   const responseA = await ask(handler, {
-    url: '/a',
-  })
-  assert.snapshot(await responseA.toString(), 'matches A')
+    url: "/a",
+  });
+  assert.snapshot(await responseA.toString(), "matches A");
   const responseAA = await ask(handler, {
-    url: '/aa',
-  })
-  assert.snapshot(await responseAA.toString(), 'matches A through AA')
+    url: "/aa",
+  });
+  assert.snapshot(await responseAA.toString(), "matches A through AA");
   const responseB = await ask(handler, {
-    url: '/b',
-  })
-  assert.snapshot(await responseB.toString(), 'matches B')
+    url: "/b",
+  });
+  assert.snapshot(await responseB.toString(), "matches B");
   const responseBB = await ask(handler, {
-    url: '/bb',
-  })
-  assert.snapshot(await responseBB.toString(), 'matches nothing')
+    url: "/bb",
+  });
+  assert.snapshot(await responseBB.toString(), "matches nothing");
   const responseAB = await ask(handler, {
-    url: '/ab',
-  })
-  assert.snapshot(await responseAB.toString(), 'matches AB')
+    url: "/ab",
+  });
+  assert.snapshot(await responseAB.toString(), "matches AB");
   const responseC = await ask(handler, {
-    url: '/c',
-  })
-  assert.snapshot(await responseC.toString(), 'matches C')
+    url: "/c",
+  });
+  assert.snapshot(await responseC.toString(), "matches C");
   const responseCD = await ask(handler, {
-    url: '/c/d',
-  })
-  assert.snapshot(await responseCD.toString(), 'matches C/D')
+    url: "/c/d",
+  });
+  assert.snapshot(await responseCD.toString(), "matches C/D");
   const responseCA = await ask(handler, {
-    url: '/c/a',
-  })
-  assert.snapshot(await responseCA.toString(), 'matches A through C')
-})
+    url: "/c/a",
+  });
+  assert.snapshot(await responseCA.toString(), "matches A through C");
+});

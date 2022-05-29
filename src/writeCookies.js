@@ -1,12 +1,12 @@
 export async function writeCookies(request, next) {
-  const response = await next(request)
+  const response = await next(request);
   if (response.headersSent) {
-    return response
+    return response;
   }
-  const { cookies } = response
+  const { cookies } = response;
   if (!cookies) {
-    return response
+    return response;
   }
-  response.setHeader('Set-Cookie', cookies)
-  return response
+  response.setHeader("Set-Cookie", cookies);
+  return response;
 }

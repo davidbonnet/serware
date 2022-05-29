@@ -1,4 +1,4 @@
-import { promisify } from 'util'
-import { randomBytes as baseRandomBytes } from 'crypto'
+import { promisify } from "util";
+import { randomBytes as baseRandomBytes } from "crypto";
 
-export const randomBytes = promisify(baseRandomBytes)
+export const randomBytes = promisify(baseRandomBytes);

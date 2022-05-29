@@ -4,30 +4,30 @@ export function use(handler) {
   */
   return async function (request, next) {
     return new Promise((resolve, reject) => {
-      const response = request.respond()
-      let done = false
+      const response = request.respond();
+      let done = false;
       const result = handler(request, response, (error) => {
-        done = true
+        done = true;
         if (error) {
-          reject(error)
-          return
+          reject(error);
+          return;
         }
-        resolve(next(request))
-      })
+        resolve(next(request));
+      });
       if (done) {
-        return
+        return;
       }
-      if (result != null && typeof result.then === 'function') {
+      if (result != null && typeof result.then === "function") {
         result.then(() => {
           if (!done) {
-            resolve(response)
+            resolve(response);
           }
-        })
-        return
+        });
+        return;
       }
       if (result !== undefined) {
-        resolve(response)
+        resolve(response);
       }
-    })
-  }
+    });
+  };
 }

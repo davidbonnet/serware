@@ -1,31 +1,31 @@
-import { toPairs, orderBy } from 'lodash-es'
+import { toPairs, orderBy } from "lodash-es";
 
-import { setHref } from './setHref.js'
+import { setHref } from "./setHref.js";
 
 export function routeUrl(routes) {
-  const orderedRoutes = orderBy(toPairs(routes), ['0.length'], ['desc'])
+  const orderedRoutes = orderBy(toPairs(routes), ["0.length"], ["desc"]);
   return async function (request, next) {
     if (!request.href) {
-      setHref(request)
+      setHref(request);
     }
-    const { pathname } = request
-    const { length } = orderedRoutes
-    const { length: pathnameLength } = pathname
+    const { pathname } = request;
+    const { length } = orderedRoutes;
+    const { length: pathnameLength } = pathname;
     for (let i = 0; i < length; i++) {
-      const route = orderedRoutes[i]
-      const pattern = route[0]
-      const handler = route[1]
+      const route = orderedRoutes[i];
+      const pattern = route[0];
+      const handler = route[1];
       if (pattern.length > pathnameLength) {
-        continue
+        continue;
       }
       if (pattern === pathname || pathname.startsWith(pattern)) {
-        request.pathname = pathname.slice(pattern.length)
+        request.pathname = pathname.slice(pattern.length);
         return await handler(request, function (request) {
-          request.pathname = pathname
-          return next(request)
-        })
+          request.pathname = pathname;
+          return next(request);
+        });
       }
     }
-    return await next(request)
-  }
+    return await next(request);
+  };
 }

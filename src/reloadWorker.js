@@ -1,28 +1,28 @@
-import { parentPort, workerData as modulePath } from 'worker_threads'
+import { parentPort, workerData as modulePath } from "worker_threads";
 
 async function main() {
-  const module = await import(modulePath)
-  let close
+  const module = await import(modulePath);
+  let close;
   try {
-    close = await Promise.resolve(module.default())
+    close = await Promise.resolve(module.default());
   } catch (error) {
-    respond('error', error.toString())
-    return
+    respond("error", error.toString());
+    return;
   }
-  respond('success')
-  parentPort.on('message', async (command) => {
+  respond("success");
+  parentPort.on("message", async (command) => {
     switch (command) {
-      case 'close': {
+      case "close": {
         if (close) {
-          await close()
+          await close();
         }
-        respond('success')
-        break
+        respond("success");
+        break;
       }
       default:
       // Ignore
     }
-  })
+  });
 }
 
 function respond(type, value) {
@@ -31,7 +31,7 @@ function respond(type, value) {
       type,
       value,
     }),
-  )
+  );
 }
 
-main()
+main();

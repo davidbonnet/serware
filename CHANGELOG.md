@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.1](https://github.com/davidbonnet/serware/compare/v0.15.0...v0.15.1) (2022-05-29)
+
+
+### Features
+
+* **cache:** add `shouldCache` parameter ([f156eee](https://github.com/davidbonnet/serware/commit/f156eeec8fef622c99b2f2ad67386b868e5b4dcf))
+* modularize and support Node 16 ([b644df5](https://github.com/davidbonnet/serware/commit/b644df5ab36971ce71e4bd75d6f85a89c8ed9782))
+
+
+### Bug Fixes
+
+* **onRequest:** also end when no keep-alive option ([680cecb](https://github.com/davidbonnet/serware/commit/680cecbddf564d5fe70e7460270f31784e243457))
+
 ## [0.15.0](https://github.com/davidbonnet/serware/compare/v0.14.0...v0.15.0) (2021-05-08)
 
 

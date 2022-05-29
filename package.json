@@ -5,7 +5,8 @@
   "type": "module",
   "main": "main.js",
   "exports": {
-    "import": "./main.js"
+    "import": "./main.js",
+    "main": "./main.js"
   },
   "scripts": {
     "start": "node demo/run.js",

@@ -9,7 +9,7 @@ import { HTTPError } from "./HTTPError.js";
 
 export function parseBody(
   request,
-  encoding = "utf-8",
+  encoding = "utf8",
   contentLength = null,
   limit = null,
 ) {

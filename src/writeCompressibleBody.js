@@ -7,6 +7,7 @@ import { GZIP, BR } from "./getAcceptedEncoding.js";
 export async function writeCompressibleBody(request, next) {
   const response = await next(request);
   if (response.writableEnded) {
+    // TODO: Throw error?
     return response;
   }
   const { body, charset, tube, compress } = response;

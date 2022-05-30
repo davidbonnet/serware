@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.16.0](https://github.com/davidbonnet/serware/compare/v0.15.2...v0.16.0) (2022-05-30)
+
+
+### Features
+
+* add `toObject` ([438f4b1](https://github.com/davidbonnet/serware/commit/438f4b106cd9732620d6d25946bad1b8c470e246))
+* add `toString` ([9e7e2d8](https://github.com/davidbonnet/serware/commit/9e7e2d8fc74256bd68bb58d5ca8723b1bab167b9))
+* add `withContentType` ([804baaa](https://github.com/davidbonnet/serware/commit/804baaa0edf31ec822dacfc86ae3a9bb551bb873))
+* add `withHtml` ([cc5c185](https://github.com/davidbonnet/serware/commit/cc5c185a43bf14e4aef966ad3686139c3077169c))
+* add `withText` ([1c8d50a](https://github.com/davidbonnet/serware/commit/1c8d50a8d979230001a8cc98052daa668bf32367))
+
+
+### Bug Fixes
+
+* **cache:** restrict `shouldCache` to request ([c1dd138](https://github.com/davidbonnet/serware/commit/c1dd1385aa72f6377c3599f8d3957957d694aa76))
+* **parseBodyJson:** mixed charset and content-type ([7b61e7b](https://github.com/davidbonnet/serware/commit/7b61e7b713f69df98c849826bf64f63452602fc1))
+* **parseBody:** use true default charset ([f6af2b2](https://github.com/davidbonnet/serware/commit/f6af2b235c6209378b9c69c42406d27eeef4c422))
+* **reload:** no stack and wrong import ([1d02601](https://github.com/davidbonnet/serware/commit/1d0260122c063d6cd5e617de95f8135359c4d9e8))
+* **setup:** fix export declaration ([de98a92](https://github.com/davidbonnet/serware/commit/de98a9285becf591c85161c6fc3bd4cc042fb557))
+
 ### [0.15.2](https://github.com/davidbonnet/serware/compare/v0.15.1...v0.15.2) (2022-05-29)
 
 

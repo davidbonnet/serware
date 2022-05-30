@@ -5,7 +5,7 @@ import { isStream } from "./isStream.js";
 
 const { isBuffer } = Buffer;
 
-export function toReadableStream(value, encoding) {
+export function toReadableStream(value, charset) {
   if (isStream(value)) {
     return value;
   }
@@ -19,6 +19,6 @@ export function toReadableStream(value, encoding) {
   }
   return Readable.from(value, {
     objectMode: false,
-    encoding,
+    encoding: charset,
   });
 }

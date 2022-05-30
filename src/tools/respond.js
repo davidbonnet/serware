@@ -1,6 +1,6 @@
 export function respond(
   response,
-  { status, statusCode = status, headers, body, charset, cache },
+  { status, statusCode = status, headers, body, charset },
 ) {
   if (statusCode != null) {
     response.statusCode = statusCode;
@@ -28,9 +28,6 @@ export function respond(
   }
   if (charset !== undefined) {
     response.charset = charset;
-  }
-  if (cache !== undefined) {
-    response.cache = cache;
   }
   return response;
 }

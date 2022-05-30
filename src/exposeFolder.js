@@ -15,7 +15,6 @@ const { decodeURI, Date } = global;
 export function exposeFolder({
   path: folderPath,
   index,
-  cache = false,
   isImmutable = stubFalse,
   maxAge = 1 * YEARS,
   lastModified = true,
@@ -98,8 +97,6 @@ export function exposeFolder({
     if (!response.compress) {
       response.setHeader("Content-Length", stats.size);
     }
-    // Enable cache for other handlers
-    response.cache = cache;
     response.body = createReadStream(pathname);
     return response;
   };

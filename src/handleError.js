@@ -20,8 +20,8 @@ export function handleError({ callback, Response = DefaultResponse } = {}) {
         socket._httpMessage = null;
       }
       response.assignSocket(socket);
-      response.statusCode = error.statusCode || 500;
-      response.body = error.statusCode ? error.message : undefined;
+      response.statusCode = error.status ?? error.statusCode ?? 500;
+      response.body = response.statusCode ? error.message : undefined;
       if (callback) {
         await callback(error, request, response);
       }

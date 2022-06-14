@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.1](https://github.com/davidbonnet/serware/compare/v0.16.0...v0.16.1) (2022-06-14)
+
+
+### Features
+
+* **error:** support `status` property ([da4d487](https://github.com/davidbonnet/serware/commit/da4d487d5416370606bf093eaa3f154ac5f36e80))
+
 ## [0.16.0](https://github.com/davidbonnet/serware/compare/v0.15.2...v0.16.0) (2022-05-30)
 
 

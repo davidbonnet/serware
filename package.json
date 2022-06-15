@@ -1,6 +1,6 @@
 {
   "name": "serware",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "Basic server middleware for JavaScript engines.",
   "type": "module",
   "main": "main.js",

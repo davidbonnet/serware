@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.16.3](https://github.com/davidbonnet/serware/compare/v0.16.2...v0.16.3) (2022-12-21)
+
+
+### Bug Fixes
+
+* **reload:** ensure Windows compatibility ([8fc1259](https://github.com/davidbonnet/serware/commit/8fc125927af77b4298ec346e4173276ad7ac6e6d))
+
 ### [0.16.2](https://github.com/davidbonnet/serware/compare/v0.16.1...v0.16.2) (2022-06-15)
 
 

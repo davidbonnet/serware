@@ -10,7 +10,7 @@ test("handles error", async (assert) => {
   const handler = combine(
     handleError({
       Response: MockResponse,
-      callback(response, error) {
+      callback(error, _, response) {
         response.body = error.toString();
         return response;
       },

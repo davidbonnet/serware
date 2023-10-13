@@ -9,4 +9,5 @@ module.exports = {
   excludeExternals: true,
   hideGenerator: true,
   readme: "none",
+  tsconfig: "./tsconfig.package.json",
 };

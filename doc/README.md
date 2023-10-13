@@ -20,7 +20,7 @@ foundation
 
 #### Defined in
 
-types.ts:1
+[types.ts:1](https://github.com/davidbonnet/foundation/blob/4f05eb8/lib/types.ts#L1)
 
 ## Functions
 
@@ -45,4 +45,4 @@ The sum of both numbers.
 
 #### Defined in
 
-tools/add.ts:8
+[tools/add.ts:8](https://github.com/davidbonnet/foundation/blob/4f05eb8/lib/tools/add.ts#L8)

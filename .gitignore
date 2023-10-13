@@ -9,8 +9,6 @@ dist-ssr
 
 # Editor directories and files
 .nova
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo

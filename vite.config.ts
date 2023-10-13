@@ -1,8 +1,8 @@
 import { resolve } from "path";
 
-import moduleList from "vite-plugin-module-list";
-import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
+import { defineConfig } from "vite";
+import moduleList from "vite-plugin-module-list";
 
 export default defineConfig({
   plugins: [

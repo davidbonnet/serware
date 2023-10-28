@@ -29,7 +29,7 @@
     "dev": "vite",
     "dev:test": "vitest --update",
     "test": "npm run lint && npm run format && vitest run",
-    "build": "tsc --project tsconfig.package.json",
+    "build": "rm -rf dist; tsc --project tsconfig.package.json",
     "build:doc": "typedoc --tsconfig tsconfig.package.json",
     "build:demo": "vite build",
     "prepare": "npm run build",

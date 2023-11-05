@@ -109,10 +109,6 @@ export default [
       "no-redeclare": "off",
       "no-sequences": "error",
       "no-unused-vars": "off",
-      "no-use-before-define": [
-        "error",
-        { classes: true, functions: false, variables: true },
-      ],
       "no-var": "error",
       "object-shorthand": ["error", "properties"],
       "prefer-arrow-callback": ["error", { allowNamedFunctions: true }],

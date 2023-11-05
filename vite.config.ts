@@ -7,12 +7,18 @@ import moduleList from "vite-plugin-module-list";
 export default defineConfig({
   plugins: [
     moduleList({
-      mode: "named-static-no-extension",
+      mode: {
+        language: "ts",
+        extension: "js",
+      },
       rootPath: resolve("lib/tools"),
       outputPath: resolve("lib/tools.ts"),
     }),
     moduleList({
-      mode: "named-static-no-extension",
+      mode: {
+        language: "ts",
+        extension: "js",
+      },
       rootPath: resolve("src/components"),
       outputPath: resolve("src/components.ts"),
     }),

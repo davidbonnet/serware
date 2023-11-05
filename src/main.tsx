@@ -1,4 +1,7 @@
+/* global document */
+
 import { render } from "preact";
+
 import { App } from "./App.tsx";
 import "./main.css";
 

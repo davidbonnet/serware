@@ -1,5 +1,3 @@
-/* global process */
-
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import pseudoClasses from "postcss-pseudo-classes";

@@ -14,7 +14,11 @@ export default [
     files: ["**/*.{js,ts,jsx,tsx}"],
     ignores: ["dist/**/*", "node_modules/**/*"],
     languageOptions: {
-      globals: {},
+      globals: {
+        ...((keyList) => Object.fromEntries(keyList.map((key) => [key, true])))(
+          ["process", "console"],
+        ),
+      },
       parser,
       parserOptions: {
         ecmaFeatures: {

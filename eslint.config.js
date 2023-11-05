@@ -4,6 +4,7 @@ import prettierConfig from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
 import infernoPlugin from "eslint-plugin-inferno";
 import reactPlugin from "eslint-plugin-react";
+import sortkeysPlugin from "eslint-plugin-sort-keys";
 import tailwindcssPlugin from "eslint-plugin-tailwindcss";
 import vitestPlugin from "eslint-plugin-vitest";
 
@@ -12,16 +13,8 @@ export default [
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
     ignores: ["dist/**/*", "node_modules/**/*"],
-    plugins: {
-      import: importPlugin,
-      inferno: infernoPlugin,
-      tailwindcss: tailwindcssPlugin,
-      react: reactPlugin,
-    },
-    settings: {
-      ...importPlugin.configs.typescript.settings,
-    },
     languageOptions: {
+      globals: {},
       parser,
       parserOptions: {
         ecmaFeatures: {
@@ -29,17 +22,19 @@ export default [
         },
         sourceType: "module",
       },
-      globals: {},
+    },
+    plugins: {
+      import: importPlugin,
+      inferno: infernoPlugin,
+      react: reactPlugin,
+      sortkeys: sortkeysPlugin,
+      tailwindcss: tailwindcssPlugin,
     },
     rules: {
       ...jsConfig.configs.recommended.rules,
       ...importPlugin.configs.typescript.rules,
       ...tailwindcssPlugin.configs.recommended.rules,
       ...prettierConfig.rules,
-      "prettier/prettier": "off",
-      "tailwindcss/classnames-order": "off",
-      "tailwindcss/no-custom-classname": "off",
-      "inferno/jsx-props-class-name": ["error", "class"],
       "arrow-body-style": ["error", "as-needed"],
       camelcase: [
         "error",
@@ -61,8 +56,6 @@ export default [
       "id-length": [
         "error",
         {
-          min: 3,
-          properties: "never",
           exceptions: [
             "a",
             "b",
@@ -76,6 +69,8 @@ export default [
             "fs",
             "to",
           ],
+          min: 3,
+          properties: "never",
         },
       ],
       "import/extensions": ["error", "always", { ignorePackages: true }],
@@ -83,12 +78,13 @@ export default [
       "import/order": [
         "error",
         {
-          "newlines-between": "always",
           alphabetize: {
             order: "asc",
           },
+          "newlines-between": "always",
         },
       ],
+      "inferno/jsx-props-class-name": ["error", "class"],
       "jest/no-deprecated-functions": "off",
       "line-comment-position": [
         "error",
@@ -96,7 +92,6 @@ export default [
           position: "above",
         },
       ],
-      "no-sequences": "error",
       "no-console": [
         "error",
         {
@@ -111,35 +106,26 @@ export default [
         },
       ],
       "no-param-reassign": "error",
+      "no-redeclare": "off",
+      "no-sequences": "error",
       "no-unused-vars": "off",
       "no-use-before-define": [
         "error",
-        { functions: false, classes: true, variables: true },
-      ],
-      "sort-imports": [
-        "error",
-        {
-          ignoreCase: false,
-          ignoreDeclarationSort: true,
-          ignoreMemberSort: false,
-          memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
-          allowSeparatedGroups: true,
-        },
+        { classes: true, functions: false, variables: true },
       ],
       "no-var": "error",
-      "no-redeclare": "off",
       "object-shorthand": ["error", "properties"],
       "prefer-arrow-callback": ["error", { allowNamedFunctions: true }],
       "prefer-const": "error",
+      "prettier/prettier": "off",
       quotes: [
         "error",
         "double",
         {
-          avoidEscape: true,
           allowTemplateLiterals: false,
+          avoidEscape: true,
         },
       ],
-      "react/jsx-key": "off",
       "react/jsx-boolean-value": "error",
       "react/jsx-curly-brace-presence": [
         "error",
@@ -147,6 +133,24 @@ export default [
           children: "ignore",
           props: "never",
         },
+      ],
+      "react/jsx-key": "off",
+      "react/jsx-sort-props": "error",
+      "sort-imports": [
+        "error",
+        {
+          allowSeparatedGroups: true,
+          ignoreCase: false,
+          ignoreDeclarationSort: true,
+          ignoreMemberSort: false,
+          memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
+        },
+      ],
+      "sort-keys": "off",
+      "sortkeys/sort-keys-fix": [
+        "error",
+        "asc",
+        { caseSensitive: false, minKeys: 2, natural: true },
       ],
       "spaced-comment": [
         "error",
@@ -157,6 +161,11 @@ export default [
           },
         },
       ],
+      "tailwindcss/classnames-order": "off",
+      "tailwindcss/no-custom-classname": "off",
+    },
+    settings: {
+      ...importPlugin.configs.typescript.settings,
     },
   },
   {

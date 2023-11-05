@@ -58,6 +58,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-inferno": "^7.33.2",
+    "eslint-plugin-sort-keys": "^2.3.5",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "eslint-plugin-vitest": "^0.3.9",
     "postcss": "^8.4.31",

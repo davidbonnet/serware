@@ -8,6 +8,11 @@ import sortkeysPlugin from "eslint-plugin-sort-keys";
 import tailwindcssPlugin from "eslint-plugin-tailwindcss";
 import vitestPlugin from "eslint-plugin-vitest";
 
+/**
+ * List of global variables or types.
+ */
+const GLOBAL_NAME_LIST = ["process", "console"];
+
 /** @type { import("eslint").Linter.FlatConfig[] } */
 export default [
   {
@@ -16,7 +21,7 @@ export default [
     languageOptions: {
       globals: {
         ...((keyList) => Object.fromEntries(keyList.map((key) => [key, true])))(
-          ["process", "console"],
+          GLOBAL_NAME_LIST,
         ),
       },
       parser,

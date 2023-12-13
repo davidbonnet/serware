@@ -31,6 +31,7 @@
     "test": "npm run lint && npm run format && vitest run",
     "build": "rm -rf dist; tsc --project tsconfig.package.json",
     "build:doc": "typedoc --tsconfig tsconfig.package.json",
+    "build:doc:save": "typedoc --tsconfig tsconfig.package.json && git add -A && git commit -a -m 'Update doc'",
     "build:demo": "vite build",
     "prepare": "npm run build",
     "start": "vite preview",

@@ -41,6 +41,7 @@
     "lint:fix": "npm run lint:ts:fix",
     "lint:ts": "eslint .",
     "lint:ts:fix": "eslint --fix .",
+    "release:init": "npm publish --access=public",
     "release:patch": "npm version patch && git push origin --follow-tags && npm publish",
     "release:minor": "npm version minor && git push origin --follow-tags && npm publish",
     "release:major": "npm version major && git push origin --follow-tags && npm publish",

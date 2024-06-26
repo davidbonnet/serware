@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
+    "@nevoland/get-global": "^2.0.2",
     "@preact/preset-vite": "^2.8.3",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.9",

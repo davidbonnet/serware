@@ -1,3 +1,14 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+html,
+body {
+  @apply h-full;
+  @apply selection:bg-slate-700 selection:text-white dark:selection:bg-white dark:selection:text-black;
+}
+
+#app {
+  @apply h-full w-full bg-slate-100 p-4 dark:bg-slate-900;
+  @apply flex flex-col justify-center align-middle;
+}

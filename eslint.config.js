@@ -11,7 +11,7 @@ import vitestPlugin from "eslint-plugin-vitest";
 /**
  * List of global variables or types.
  */
-const GLOBAL_NAME_LIST = ["process", "console"];
+const GLOBAL_NAME_LIST = ["process", "console", "MediaQueryListEvent"];
 
 /** @type { import("eslint").Linter.FlatConfig[] } */
 export default [

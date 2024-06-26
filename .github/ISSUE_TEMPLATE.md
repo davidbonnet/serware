@@ -14,4 +14,4 @@ _Describe the actual behavior of the feature or remove this section if the featu
 
 _Checklist of suggested tasks to do in order to implement the expected behavior._
 
-* [ ] Fix
+- [ ] Fix

@@ -1,6 +1,6 @@
-import { types } from "util";
-import { PassThrough } from "stream";
 import { Buffer } from "buffer";
+import { PassThrough } from "stream";
+import { types } from "util";
 
 import { stubTrue } from "lodash-es";
 
@@ -23,24 +23,24 @@ export function cache({ store, shouldCache = stubTrue }) {
     const tube = new PassThrough();
     response.tube = tube;
     await store.set(request, {
-      headers: response.getHeaders(),
       body: buffer(tube),
       charset: null,
       compress: false,
+      headers: response.getHeaders(),
     });
     return response;
   };
 }
 
 function buffer(tube) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     const chunks = [];
     tube
       .on("error", reject)
-      .on("data", function (chunk) {
+      .on("data", (chunk) => {
         chunks.push(chunk);
       })
-      .on("end", function () {
+      .on("end", () => {
         resolve(Buffer.concat(chunks));
       });
   });

@@ -1,0 +1,6 @@
+dist/
+doc/
+node_modules/
+.cache/
+.vscode/
+.nova/

@@ -1,4 +1,4 @@
-import { respond } from "./tools/respond.js";
+import { respond } from "../tools/respond.js";
 
 export function onRequest(handle) {
   return async function listener(request, response) {

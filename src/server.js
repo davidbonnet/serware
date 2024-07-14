@@ -1,31 +1,31 @@
 import { Server as HTTPServer } from "http";
-import { join, dirname } from "path";
+import { dirname, join } from "path";
 
-import { WebSocketServer } from "ws";
 import pino from "pino";
+import { WebSocketServer } from "ws";
 
 import {
+  STATUS_CODES,
   cache,
-  matchUrl,
   combine,
   exact,
   exposeFolder,
   getSessionValue,
   handleError,
   log,
+  matchUrl,
   onRequest,
   onUpgrade,
   parseBodyJson,
   routeMethod,
   routeUrl,
-  setHref,
   session,
   setCookie,
+  setHref,
   setSessionValue,
-  STATUS_CODES,
+  withContentType,
   withHtml,
   withJson,
-  withContentType,
   writeCompressibleBody,
   writeContentEncoding,
   writeContentLength,
@@ -101,25 +101,25 @@ const SESSIONS = new Map();
 const { stringify: formatJson } = JSON;
 
 const sessionStore = {
+  delete(key) {
+    SESSIONS.delete(key);
+  },
   get(key) {
     return Promise.resolve(SESSIONS.get(key));
   },
   set(key, value) {
     SESSIONS.set(key, value);
   },
-  delete(key) {
-    SESSIONS.delete(key);
-  },
 };
 
 const CACHE = new Map();
 
 const cacheStore = {
-  async has(request) {
-    return Promise.resolve(CACHE.has(request.url));
-  },
   async get(request) {
     return Promise.resolve(CACHE.get(request.url));
+  },
+  async has(request) {
+    return Promise.resolve(CACHE.has(request.url));
   },
   async set(request, response) {
     if (response == null) {
@@ -162,8 +162,8 @@ const LINKS = [
 ];
 
 const webSocketServer = new WebSocketServer({
-  noServer: true,
   clientTracking: true,
+  noServer: true,
 });
 
 const handle = combine(
@@ -186,10 +186,10 @@ const handle = combine(
   writeHeaders,
   writeContentLength,
   cache({
-    store: cacheStore,
     shouldCache(request) {
       return setHref(request).pathname.startsWith("/a");
     },
+    store: cacheStore,
   }),
   writeContentEncoding,
   writeCookies,
@@ -197,16 +197,65 @@ const handle = combine(
     store: sessionStore,
   }),
   routeUrl({
-    "/files": exposeFolder({
-      path: join(dirname(new URL(import.meta.url).pathname), "files"),
-      maxAge: 0,
-    }),
+    "/": exact(
+      printHtmlMessage(
+        "Index",
+        `<ul>${LINKS.map(
+          (link) => `<li><a href="${link.href}">${link.label}</a></li>`,
+        ).join("")}</ul>`,
+        true,
+        true,
+      ),
+    ),
     "/a": routeUrl({
+      "": printHtmlMessage("This is the first page A"),
       "/b": exact(routeMethod({ GET: printHtmlMessage("This is a/b") })),
       "/b2": printPath,
       "/c": routeMethod({ POST: printHtmlMessage("This is a/b") }),
-      "": printHtmlMessage("This is the first page A"),
     }),
+    "/clear": exact(async (request, next) => {
+      const response = await next(request);
+      request.session = null;
+      response.body = "Cleared the session";
+      return response;
+    }),
+    "/counter": exact(async (request, next) => {
+      const response = await next(request);
+      const counter = getSessionValue(request, "counter", 0) + 1;
+      setSessionValue(request, "counter", counter);
+      response.body = `Visited this page ${counter} times`;
+      return response;
+    }),
+    "/data": exact(
+      combine(
+        routeMethod({
+          POST: async (request) => {
+            const data = await parseBodyJson(request, 1024 * 1024);
+            return request.respond(withJson({ result: data, status: "OK" }));
+          },
+        }),
+        (request) =>
+          request.respond({ statusCode: STATUS_CODES.METHOD_NOT_ALLOWED }),
+      ),
+    ),
+    "/files": exposeFolder({
+      maxAge: 0,
+      path: join(dirname(new URL(import.meta.url).pathname), "files"),
+    }),
+    "/hello": exact(printMessage("Hello there")),
+    "/refresh-session": exact(
+      combine(async (request, next) => {
+        const response = await next(request);
+        response.refreshSession = true;
+        return response;
+      }, printMessage("Session is refreshed for 7 more days")),
+    ),
+    "/sessions": exact(
+      printMessage(() =>
+        formatJson(Object.fromEntries(SESSIONS.entries()), null, 2),
+      ),
+    ),
+    "/test": exact(test),
     "/ws": exact(async (request) => {
       if (request.session == null) {
         return request.respond({ statusCode: STATUS_CODES.FORBIDDEN });
@@ -229,55 +278,6 @@ const handle = combine(
       });
       return request.respond();
     }),
-    "/data": exact(
-      combine(
-        routeMethod({
-          POST: async (request) => {
-            const data = await parseBodyJson(request, 1024 * 1024);
-            return request.respond(withJson({ result: data, status: "OK" }));
-          },
-        }),
-        (request) =>
-          request.respond({ statusCode: STATUS_CODES.METHOD_NOT_ALLOWED }),
-      ),
-    ),
-    "/test": exact(test),
-    "/hello": exact(printMessage("Hello there")),
-    "/counter": exact(async (request, next) => {
-      const response = await next(request);
-      const counter = getSessionValue(request, "counter", 0) + 1;
-      setSessionValue(request, "counter", counter);
-      response.body = `Visited this page ${counter} times`;
-      return response;
-    }),
-    "/clear": exact(async (request, next) => {
-      const response = await next(request);
-      request.session = null;
-      response.body = `Cleared the session`;
-      return response;
-    }),
-    "/sessions": exact(
-      printMessage(() =>
-        formatJson(Object.fromEntries(SESSIONS.entries()), null, 2),
-      ),
-    ),
-    "/refresh-session": exact(
-      combine(async (request, next) => {
-        const response = await next(request);
-        response.refreshSession = true;
-        return response;
-      }, printMessage("Session is refreshed for 7 more days")),
-    ),
-    "/": exact(
-      printHtmlMessage(
-        "Index",
-        `<ul>${LINKS.map(
-          (link) => `<li><a href="${link.href}">${link.label}</a></li>`,
-        ).join("")}</ul>`,
-        true,
-        true,
-      ),
-    ),
   }),
   matchUrl(/^\/([a-z_]+)\/([0-9]+)$/, ["project", "id"], (request) =>
     request.respond(withJson(request.matches)),

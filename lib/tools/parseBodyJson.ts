@@ -1,7 +1,7 @@
 import { parse } from "content-type";
 
 import { parseBody } from "./parseBody.js";
-import { decompress } from "./decompress.js";
+import { decompress } from "../decompress.js";
 import { parseNumber } from "./parseNumber.js";
 import { HTTPError } from "./HTTPError.js";
 

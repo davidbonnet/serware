@@ -1,4 +1,4 @@
-import { getAcceptedEncoding } from "./getAcceptedEncoding.js";
+import { getAcceptedEncoding } from "../getAcceptedEncoding.js";
 
 export async function writeContentEncoding(request, next) {
   const acceptedEncoding = getAcceptedEncoding(

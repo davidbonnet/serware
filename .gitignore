@@ -1,11 +1,18 @@
-*.DS_Store
-*.sublime-workspace
-.nova
-.cache
-.DS_Store
-.nyc_output
-coverage
-dist
-lib
+# Logs
+logs
+*.log
+npm-debug.log*
 node_modules
-playground
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.nova
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

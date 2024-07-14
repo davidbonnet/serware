@@ -3,27 +3,10 @@
   "version": "0.16.3",
   "description": "Basic server middleware for JavaScript engines.",
   "type": "module",
-  "main": "main.js",
+  "main": "./dist/main.js",
   "exports": {
-    ".": "./main.js"
-  },
-  "scripts": {
-    "start": "node demo/run.js",
-    "dev": "concurrently -n \"server,  test\" \"npm:dev:server\" \"npm:dev:test\"",
-    "dev:server": "node demo/watch.js",
-    "dev:test": "ava --watch --update-snapshots",
-    "test": "npm run lint && npm run format:check && npm run test:unit",
-    "test:unit": "c8 --reporter=html --reporter=text --reporter=lcov --include='src/*.js' --all --exclude='src/**/tests/*.js' --exclude='src/mock*.js' ava",
-    "lint": "eslint src/",
-    "lint:fix": "eslint --fix src/",
-    "format": "prettier --write \"{src,scripts}/**/*.js\"",
-    "format:check": "prettier --list-different \"{src,scripts}/**/*.js\"",
-    "prepush": "npm test",
-    "release": "standard-version",
-    "release:minor": "standard-version --release-as minor",
-    "release:major": "standard-version --release-as major",
-    "deploy": "git push --follow-tags origin master && npm publish",
-    "release:deploy": "npm run release && npm run deploy"
+    "types": "./dist/main.d.ts",
+    "import": "./dist/main.js"
   },
   "keywords": [
     "server",
@@ -37,38 +20,69 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/davidbonnet/serware.git"
+    "url": "https://github.com/davidbonnet/foundation.git"
   },
-  "dependencies": {
-    "content-type": "^1.0.4",
-    "cookie": "^0.4.1",
-    "iconv-lite": "^0.6.3",
-    "lodash-es": "^4.17.21",
-    "mime-types": "^2.1.34"
+  "files": [
+    "dist",
+    "lib",
+    "!lib/**/*.test.ts?",
+    "!src",
+    "!src/old",
+    "README.md",
+    "doc/",
+    "!doc/.nojekyll"
+  ],
+  "scripts": {
+    "dev": "node --import tsx src/watch.js",
+    "dev:test": "vitest --update",
+    "test": "npm run lint && npm run format && vitest run",
+    "build": "rm -rf dist; tsc --project tsconfig.package.json",
+    "build:doc": "typedoc --tsconfig tsconfig.package.json",
+    "build:doc:save": "typedoc --tsconfig tsconfig.package.json && git add -A && git commit -a -m 'Update doc'",
+    "build:demo": "vite build",
+    "prepare": "npm run build",
+    "start": "node dist/main.js",
+    "format": "prettier --check './**/*.{css,scss,md,mdx,json,tsx,ts,jsx,js}'",
+    "format:fix": "prettier --write './**/*.{css,scss,md,mdx,json,tsx,ts,jsx,js}'",
+    "lint": "npm run lint:ts",
+    "lint:fix": "npm run lint:ts:fix",
+    "lint:ts": "eslint .",
+    "lint:ts:fix": "eslint --fix .",
+    "release:init": "npm publish --access=public",
+    "release:patch": "npm version patch && git push origin --follow-tags && npm publish",
+    "release:minor": "npm version minor && git push origin --follow-tags && npm publish",
+    "release:major": "npm version major && git push origin --follow-tags && npm publish",
+    "release:alpha": "npm version prerelease --preid=alpha && git push origin --follow-tags && npm publish --tag=next",
+    "release:beta": "npm version prerelease --preid=beta && git push origin --follow-tags && npm publish --tag=next"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
-    "c8": "^7.10.0",
-    "chokidar": "^3.5.2",
-    "codecov": "^3.8.2",
-    "concurrently": "^6.4.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.4.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "esm": "^3.2.25",
-    "fast-glob": "3.2.7",
-    "husky": "^7.0.4",
-    "pino": "^7.5.1",
-    "pino-pretty": "^7.2.0",
-    "prettier": "^2.5.1",
-    "standard-version": "^9.3.2",
-    "ws": "^8.3.0"
-  },
-  "ava": {
-    "files": [
-      "src/**/tests/*.js"
-    ]
-  },
-  "esm": "auto"
+    "@eslint/js": "^8.57.0",
+    "@nevoland/get-global": "^2.0.2",
+    "@preact/preset-vite": "^2.9.0",
+    "@types/eslint": "^8.56.10",
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/parser": "^7.16.0",
+    "autoprefixer": "^10.4.19",
+    "cssnano": "^7.0.4",
+    "eslint": "^8.57.0",
+    "eslint-config-preact": "^1.4.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-inferno": "^7.34.0",
+    "eslint-plugin-sort-keys": "^2.3.5",
+    "eslint-plugin-tailwindcss": "^3.17.4",
+    "eslint-plugin-vitest": "^0.5.4",
+    "postcss": "^8.4.39",
+    "postcss-pseudo-classes": "^0.4.0",
+    "preact": "^10.22.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "tailwindcss": "^3.4.4",
+    "typedoc": "^0.26.4",
+    "typedoc-plugin-markdown": "^4.2.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
+    "vite-plugin-module-list": "^2.2.2",
+    "vitest": "^2.0.2"
+  }
 }

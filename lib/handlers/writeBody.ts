@@ -1,5 +1,5 @@
-import { pipe } from "./tools/pipe.js";
-import { toReadableStream } from "./toReadableStream.js";
+import { pipe } from "../tools/pipe.js";
+import { toReadableStream } from "../tools/toReadableStream.js";
 
 export async function writeBody(request, next) {
   const response = await next(request);

@@ -1,5 +1,5 @@
-import { Readable } from "stream";
 import { Buffer } from "buffer";
+import { Readable } from "stream";
 
 import { isStream } from "./isStream.js";
 
@@ -18,7 +18,7 @@ export function toReadableStream(value, charset) {
     });
   }
   return Readable.from(value, {
-    objectMode: false,
     encoding: charset,
+    objectMode: false,
   });
 }

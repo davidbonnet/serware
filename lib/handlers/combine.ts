@@ -1,3 +1,4 @@
+/* eslint-disable func-names, prefer-arrow-callback */
 export function combine(...handlers) {
   return function (request, next) {
     function dispatch(request, index) {

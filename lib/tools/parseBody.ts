@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 import iconvLite from "iconv-lite";
 const { getDecoder: baseGetDecoder } = iconvLite;
 
-import { HTTPError } from "./HTTPError.js";
+import { HTTPError } from "../errors/HTTPError.js";
 
 export function parseBody(
   request,
@@ -13,7 +13,7 @@ export function parseBody(
   contentLength = null,
   limit = null,
 ) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     readStream(request, encoding, contentLength, limit, resolve, reject);
   });
 }

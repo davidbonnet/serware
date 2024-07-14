@@ -2,7 +2,7 @@ import { createUnzip } from "zlib";
 
 import { toLower } from "lodash-es";
 
-import { HTTPError } from "./HTTPError.js";
+import { HTTPError } from "../errors/HTTPError.js";
 
 export function decompress(stream, encoding = "identity", options) {
   switch (toLower(encoding)) {

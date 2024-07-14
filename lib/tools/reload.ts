@@ -1,12 +1,12 @@
-import { Worker } from "worker_threads";
 import { dirname } from "path";
+import { Worker } from "worker_threads";
 
 import { debounce } from "lodash-es";
 
 const WORKER_MODULE = `${dirname(new URL(import.meta.url).pathname).slice(
   // Remove driver prefix under Windows so that `Worker` accepts the path
   process.platform === "win32" ? 3 : 0,
-)}/reloadWorker.js`;
+)}/../workers/reloadWorker.js`;
 
 export function reload({ modulePath, watcher, onReload, delay = 1000 }) {
   let worker = null;

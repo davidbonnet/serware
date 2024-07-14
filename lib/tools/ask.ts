@@ -1,7 +1,7 @@
-import { onRequest } from "./onRequest.js";
-import { MockRequest } from "./MockRequest.js";
-import { MockSocket } from "./MockSocket.js";
-import { MockResponse } from "./MockResponse.js";
+import { MockRequest } from "../adapters/MockRequest.js";
+import { MockResponse } from "../adapters/MockResponse.js";
+import { MockSocket } from "../adapters/MockSocket.js";
+import { onRequest } from "../adapters/onRequest.js";
 
 export async function ask(handler, options = {}) {
   const answer = onRequest(handler);

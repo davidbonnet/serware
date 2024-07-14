@@ -1,4 +1,4 @@
-import { toObject } from "./toObject.js";
+import { toObject } from "../tools/toObject.js";
 
 export function withContentType(contentType, body, options = null) {
   return {

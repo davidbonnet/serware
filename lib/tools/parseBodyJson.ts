@@ -1,9 +1,10 @@
 import { parse } from "content-type";
 
+import { HTTPError } from "../errors/HTTPError.js";
+
+import { decompress } from "./decompress.js";
 import { parseBody } from "./parseBody.js";
-import { decompress } from "../decompress.js";
 import { parseNumber } from "./parseNumber.js";
-import { HTTPError } from "./HTTPError.js";
 
 export async function parseBodyJson(request, limit) {
   const contentLength = parseNumber(request.headers["content-length"]);

@@ -1,7 +1,25 @@
-import { respond } from "../tools/respond.js";
+import { IncomingMessage, type ServerResponse } from "http";
 
-export function onRequest(handle) {
-  return async function listener(request, response) {
+import type { Handler, Request } from "../types.js";
+
+import { respond } from "./respond.js";
+
+class AdaptedRequest extends IncomingMessage {
+  constructor(private incomingMessage: IncomingMessage) {
+    super(incomingMessage.socket);
+  }
+
+  get url() {
+    return this.incomingMessage.url;
+  }
+}
+
+export function onRequest(handler: Handler) {
+  return async function listener(
+    incomingMessage: IncomingMessage,
+    serverResponse: ServerResponse,
+  ) {
+    incomingMessage.url;
     request.respond = function (options) {
       if (options == null) {
         return response;
@@ -12,7 +30,7 @@ export function onRequest(handle) {
       }
       return respond(response, options);
     };
-    const answer = await handle(request, request.respond);
+    const answer = await handler(request, request.respond);
     if (
       !answer.writableEnded &&
       answer.getHeader("Connection") !== "keep-alive"

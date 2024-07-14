@@ -1,6 +1,6 @@
 import { Buffer } from "buffer";
 
-import { isString, isBuffer } from "lodash-es";
+import { isBuffer, isString } from "lodash-es";
 
 const { byteLength } = Buffer;
 

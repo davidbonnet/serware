@@ -1,5 +1,5 @@
-import { Worker } from "worker_threads";
 import { dirname } from "path";
+import { Worker } from "worker_threads";
 
 import { debounce } from "lodash-es";
 

@@ -1,4 +1,4 @@
-import { GZIP, BR } from "./getAcceptedEncoding.js";
+import { BR, GZIP } from "./getAcceptedEncoding.js";
 
 export function isCompressible(request) {
   const acceptEncoding = request.headers["accept-encoding"];

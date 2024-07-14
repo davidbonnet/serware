@@ -1,10 +1,10 @@
 import { Buffer } from "buffer";
 import { ServerResponse as DefaultResponse, STATUS_CODES } from "http";
 
-import { isString, isBuffer } from "lodash-es";
+import { isBuffer, isString } from "lodash-es";
 
-import { pipe } from "./tools/pipe.js";
-import { toReadableStream } from "./toReadableStream.js";
+import { pipe } from "../tools/pipe.js";
+import { toReadableStream } from "../tools/toReadableStream.js";
 
 const { byteLength } = Buffer;
 

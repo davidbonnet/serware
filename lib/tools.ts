@@ -18,7 +18,6 @@ export { parseNumber } from "./tools/parseNumber.js";
 export { pipe } from "./tools/pipe.js";
 export { randomBytes } from "./tools/randomBytes.js";
 export { reload } from "./tools/reload.js";
-export { reloadWorker } from "./tools/reloadWorker.js";
 export { respond } from "./tools/respond.js";
 export { sessionStoreMap } from "./tools/sessionStoreMap.js";
 export { setCookie } from "./tools/setCookie.js";

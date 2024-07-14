@@ -13,9 +13,7 @@ const handle = combine(
   writeCompressibleBody,
   writeHeaders,
   writeContentLength,
-  (request) => {
-    request.response(withText("Hello"));
-  },
+  (request) => request.respond(withText("Hello")),
 );
 
 function main() {

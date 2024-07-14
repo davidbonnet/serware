@@ -1,4 +1,4 @@
-import { parentPort, workerData as modulePath } from "worker_threads";
+import { workerData as modulePath, parentPort } from "worker_threads";
 
 async function main() {
   const module = await import(modulePath);
@@ -8,9 +8,9 @@ async function main() {
       typeof module.default === "function"
         ? module.default()
         : module.default?.default &&
-          typeof module.default.default === "function"
-        ? module.default.default()
-        : module(),
+            typeof module.default.default === "function"
+          ? module.default.default()
+          : module(),
     );
   } catch (error) {
     respond("error", `${error.toString()}${error.stack ?? ""}`);

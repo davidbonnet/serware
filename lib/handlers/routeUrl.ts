@@ -1,6 +1,6 @@
-import { toPairs, orderBy } from "lodash-es";
+import { orderBy, toPairs } from "lodash-es";
 
-import { setHref } from "./setHref.js";
+import { setHref } from "../tools/setHref.js";
 
 export function routeUrl(routes) {
   const orderedRoutes = orderBy(toPairs(routes), ["0.length"], ["desc"]);
@@ -20,7 +20,7 @@ export function routeUrl(routes) {
       }
       if (pattern === pathname || pathname.startsWith(pattern)) {
         request.pathname = pathname.slice(pattern.length);
-        return await handler(request, function (request) {
+        return await handler(request, (request) => {
           request.pathname = pathname;
           return next(request);
         });

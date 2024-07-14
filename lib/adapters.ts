@@ -5,3 +5,4 @@ export { MockSocket } from "./adapters/MockSocket.js";
 export { onRequest } from "./adapters/onRequest.js";
 export { onUpgrade } from "./adapters/onUpgrade.js";
 export { onUse } from "./adapters/onUse.js";
+export { respond } from "./adapters/respond.js";

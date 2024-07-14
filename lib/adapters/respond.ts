@@ -1,6 +1,16 @@
+import type { Response } from "../types";
+
+type RespondOptions = {
+  status: Response["status"];
+  statusCode: Response["status"];
+  headers: Record<string, string>;
+  body: Response["body"] | string;
+  charset: string;
+};
+
 export function respond(
-  response,
-  { status, statusCode = status, headers, body, charset },
+  response: Response,
+  { status, statusCode = status, headers, body, charset }: RespondOptions,
 ) {
   if (statusCode != null) {
     response.statusCode = statusCode;

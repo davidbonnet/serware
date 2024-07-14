@@ -2,7 +2,9 @@ import { Server as HTTPServer } from "http";
 
 import {
   combine,
+  exact,
   onRequest,
+  routeUrl,
   withText,
   writeCompressibleBody,
   writeContentLength,
@@ -13,9 +15,11 @@ const handle = combine(
   writeCompressibleBody,
   writeHeaders,
   writeContentLength,
-  (request) => {
-    request.response(withText("Hello"));
-  },
+  routeUrl({
+    "/hello": exact((request) => request.respond(withText("Hello there!"))),
+    "/bingo": (request) => request.respond(withText("Bingo!")),
+  }),
+  (request) => request.respond(withText("Possible routes: /hello, /bingo")),
 );
 
 function main() {

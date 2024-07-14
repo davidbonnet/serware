@@ -1,8 +1,8 @@
-import { createGzip, createBrotliCompress } from "zlib";
+import { createBrotliCompress, createGzip } from "zlib";
 
+import { BR, GZIP } from "../tools/getAcceptedEncoding.js";
 import { pipe } from "../tools/pipe.js";
 import { toReadableStream } from "../tools/toReadableStream.js";
-import { GZIP, BR } from "../getAcceptedEncoding.js";
 
 export async function writeCompressibleBody(request, next) {
   const response = await next(request);

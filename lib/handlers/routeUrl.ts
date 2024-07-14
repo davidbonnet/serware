@@ -1,9 +1,9 @@
-import { toPairs, orderBy } from "lodash-es";
+import { orderBy, toPairs } from "lodash-es";
 
-import { setHref } from "./setHref.js";
+import { setHref } from "../tools/setHref.js";
 
 export function routeUrl(routes) {
-  const orderedRoutes = orderBy(toPairs(routes), ["0.length"], ["desc"]);
+  const orderedRoutes = Object.entries(routes).sort(keyDescending);
   return async function (request, next) {
     if (!request.href) {
       setHref(request);
@@ -14,13 +14,13 @@ export function routeUrl(routes) {
     for (let i = 0; i < length; i++) {
       const route = orderedRoutes[i];
       const pattern = route[0];
-      const handler = route[1];
       if (pattern.length > pathnameLength) {
         continue;
       }
+      const handler = route[1];
       if (pattern === pathname || pathname.startsWith(pattern)) {
         request.pathname = pathname.slice(pattern.length);
-        return await handler(request, function (request) {
+        return await handler(request, (request) => {
           request.pathname = pathname;
           return next(request);
         });
@@ -28,4 +28,8 @@ export function routeUrl(routes) {
     }
     return await next(request);
   };
+}
+
+function keyDescending(a, b) {
+  return b[0].length - a[0].length;
 }

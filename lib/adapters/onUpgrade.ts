@@ -1,13 +1,13 @@
 import { kServerResponse } from "_http_server";
 
-import { respond } from "../tools/respond.js";
+import { respond } from "./respond.js";
 
 export function onUpgrade(next) {
   return async function handler(request, socket, head) {
     request.connect = function (server) {
       if (head != null) {
         // If upgrade request, return websocket connexion
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
           server.handleUpgrade(request, socket, head, resolve);
         });
       }

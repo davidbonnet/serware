@@ -1,4 +1,4 @@
-import { relative, isAbsolute } from "path";
+import { isAbsolute, relative } from "path";
 
 export function isChildPath(parent, current) {
   const path = relative(parent, current);

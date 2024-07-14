@@ -1,16 +1,36 @@
-import { join, normalize } from "path";
 import { createReadStream } from "fs";
 import { stat } from "fs/promises";
+import { join, normalize } from "path";
 
 import { stubFalse } from "lodash-es";
 import { lookup } from "mime-types";
 
-import { getAcceptedEncodingList } from "./getAcceptedEncodingList.js";
-import { isChildPath } from "./isChildPath.js";
-import { COMPRESSIBLE_CONTENT_TYPES } from "./COMPRESSIBLE_CONTENT_TYPES.js";
-import { STATUS_CODES } from "./STATUS_CODES.js";
+import { COMPRESSIBLE_CONTENT_TYPES } from "../constants/COMPRESSIBLE_CONTENT_TYPES.js";
+import { STATUS_CODES } from "../constants/STATUS_CODES.js";
+import { getAcceptedEncodingList } from "../tools/getAcceptedEncodingList.js";
+import { isChildPath } from "../tools/isChildPath.js";
+import type { Handler, Request } from "../types.js";
 
 const { decodeURI, Date } = global;
+
+export type ExposeFolderOptions = {
+  /**
+   * Path to the folder.
+   */
+  path: string;
+  /**
+   * Handler that renders the content of a folder.
+   */
+  index?: Handler;
+  isImmutable?: (path: string) => boolean;
+  maxAge?: number;
+  /**
+   * If true, include `last-modified` header based on the file
+   */
+  lastModified?: boolean;
+  compressibleContentTypes?: Record<string, boolean>;
+  getContentType?: (path: string) => string | false;
+};
 
 export function exposeFolder({
   path: folderPath,
@@ -20,8 +40,8 @@ export function exposeFolder({
   lastModified = true,
   compressibleContentTypes = COMPRESSIBLE_CONTENT_TYPES,
   getContentType = lookup,
-}) {
-  return async function (request, next) {
+}: ExposeFolderOptions) {
+  return async function (request: Request, next: Handler) {
     const pathname = normalize(
       join(
         folderPath,
@@ -35,14 +55,20 @@ export function exposeFolder({
     try {
       stats = await stat(pathname);
     } catch (error) {
-      if (error.code === "ENOENT") {
+      if (
+        error != null &&
+        typeof error === "object" &&
+        "code" in error &&
+        error.code === "ENOENT"
+      ) {
         return next(request);
       }
       throw error;
     }
     if (!stats.isFile()) {
       if (index != null && stats.isDirectory()) {
-        return index(pathname, request);
+        request.pathname = pathname;
+        return index(request);
       }
       return next(request);
     }
@@ -55,7 +81,7 @@ export function exposeFolder({
     } else if (lastModified && stats.mtime) {
       // Note that `no-cache` means that the client must revalidate with the server before using the cached resource
       response.setHeader("Cache-Control", "public, no-cache");
-      const lastRequestDate = request.headers["if-modified-since"];
+      const lastRequestDate = request.headers.get("if-modified-since");
       if (
         lastRequestDate &&
         // The precision of `stats` is down to a millisecond while `lastRequestDate` is down to a second
@@ -74,7 +100,7 @@ export function exposeFolder({
       if (contentType in compressibleContentTypes) {
         // Look for compressed version
         const acceptedEncodingList = getAcceptedEncodingList(
-          request.headers["accept-encoding"],
+          request.headers.get("accept-encoding"),
         );
         const { length } = acceptedEncodingList;
         for (let i = 0; i < length; i++) {

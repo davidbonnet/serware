@@ -1,10 +1,9 @@
-import { orderBy, toPairs } from "lodash-es";
-
 import { setHref } from "../tools/setHref.js";
+import type { Handler } from "../types.ts";
 
-export function routeUrl(routes) {
+export function routeUrl(routes: Record<string, Handler>) {
   const orderedRoutes = Object.entries(routes).sort(keyDescending);
-  return async function (request, next) {
+  return async function (request: Request, next: Handler) {
     if (!request.href) {
       setHref(request);
     }

@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`sorts path pattern lists 1`] = `
+[
+  "/item/0/test",
+  "/item/index",
+  "/item/0{/metadata}",
+  "/item/0{/0}",
+  "/item/0{/:version}{/other}",
+  "/item/0{/:version}",
+  "/item/0",
+  "/item/:id/*children",
+  "/item/:id",
+  "/item",
+  "/*any",
+]
+`;

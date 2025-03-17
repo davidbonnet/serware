@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "preserve",
     "target": "ES2022",
 
     "useDefineForClassFields": true,
     "lib": ["ES2023"],
     "skipLibCheck": true,
     "noErrorTruncation": true,
+    "erasableSyntaxOnly": true,
 
     "esModuleInterop": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -25,7 +26,6 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": true
   },
-  "extends": "@tsconfig/node-lts/tsconfig.json",
   "include": ["src", "lib"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

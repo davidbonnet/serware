@@ -1,3 +1,5 @@
+import { parse } from "path-to-regexp";
+
 import { setHref } from "../tools/setHref.js";
 import type { Handler } from "../types.ts";
 

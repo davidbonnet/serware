@@ -1,5 +1,5 @@
-import type { Request } from "./Request";
-import type { Response } from "./Response";
+import type { Request } from "./Request.ts";
+import type { Response } from "./Response.ts";
 
 // export type Handler =
 //   | ((request: Request) => Response | Promise<Response>)

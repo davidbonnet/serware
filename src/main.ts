@@ -19,6 +19,7 @@ const handle = combine(
     "/hello": exact((request) => request.respond(withText("Hello there!"))),
     "/bingo": (request) => request.respond(withText("Bingo!")),
   }),
+  routeFolder("/folder"),
   (request) => request.respond(withText("Possible routes: /hello, /bingo")),
 );
 

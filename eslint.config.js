@@ -18,6 +18,7 @@ const GLOBAL_NAME_LIST = [
   "URL",
   "Request",
   "Response",
+  "URLSearchParams",
 ];
 
 /** @type { import("eslint").Linter.FlatConfig[] } */
@@ -32,12 +33,7 @@ export default [
         ),
       },
       parser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        sourceType: "module",
-      },
+      parserOptions: { ecmaFeatures: { jsx: true }, sourceType: "module" },
     },
     plugins: {
       import: importPlugin,
@@ -52,22 +48,10 @@ export default [
       ...tailwindcssPlugin.configs.recommended.rules,
       ...prettierConfig.rules,
       "arrow-body-style": ["error", "as-needed"],
-      camelcase: [
-        "error",
-        {
-          allow: ["^UNSAFE_"],
-          properties: "always",
-        },
-      ],
+      camelcase: ["error", { allow: ["^UNSAFE_"], properties: "always" }],
       curly: "error",
       "default-case": "error",
-      eqeqeq: [
-        "error",
-        "always",
-        {
-          null: "never",
-        },
-      ],
+      eqeqeq: ["error", "always", { null: "never" }],
       "func-names": ["error", "always"],
       "id-length": [
         "error",
@@ -94,33 +78,15 @@ export default [
       "import/no-duplicates": "error",
       "import/order": [
         "error",
-        {
-          alphabetize: {
-            order: "asc",
-          },
-          "newlines-between": "always",
-        },
+        { alphabetize: { order: "asc" }, "newlines-between": "always" },
       ],
       "inferno/jsx-props-class-name": ["error", "class"],
       "jest/no-deprecated-functions": "off",
-      "line-comment-position": [
-        "error",
-        {
-          position: "above",
-        },
-      ],
-      "no-console": [
-        "error",
-        {
-          allow: ["warn", "error"],
-        },
-      ],
+      "line-comment-position": ["error", { position: "above" }],
+      "no-console": ["error", { allow: ["warn", "error"] }],
       "no-irregular-whitespace": [
         "error",
-        {
-          skipStrings: true,
-          skipTemplates: true,
-        },
+        { skipStrings: true, skipTemplates: true },
       ],
       "no-param-reassign": "error",
       "no-redeclare": "off",
@@ -134,18 +100,12 @@ export default [
       quotes: [
         "error",
         "double",
-        {
-          allowTemplateLiterals: false,
-          avoidEscape: true,
-        },
+        { allowTemplateLiterals: false, avoidEscape: true },
       ],
       "react/jsx-boolean-value": "error",
       "react/jsx-curly-brace-presence": [
         "error",
-        {
-          children: "ignore",
-          props: "never",
-        },
+        { children: "ignore", props: "never" },
       ],
       "react/jsx-key": "off",
       "react/jsx-sort-props": "error",
@@ -161,29 +121,15 @@ export default [
       ],
       "sort-keys": "off",
       "sortkeys/sort-keys-fix": "off",
-      "spaced-comment": [
-        "error",
-        "always",
-        {
-          line: {
-            markers: ["/"],
-          },
-        },
-      ],
+      "spaced-comment": ["error", "always", { line: { markers: ["/"] } }],
       "tailwindcss/classnames-order": "off",
       "tailwindcss/no-custom-classname": "off",
     },
-    settings: {
-      ...importPlugin.configs.typescript.settings,
-    },
+    settings: { ...importPlugin.configs.typescript.settings },
   },
   {
     files: ["**/*.test.ts", "**/*.test.tsx"],
-    plugins: {
-      vitest: vitestPlugin,
-    },
-    rules: {
-      ...vitestPlugin.configs.recommended.rules,
-    },
+    plugins: { vitest: vitestPlugin },
+    rules: { ...vitestPlugin.configs.recommended.rules },
   },
 ];
